@@ -65,6 +65,7 @@ Thumbs.db
 *.key
 *.pem
 config/secrets.json
+.env
 
 # Cache files
 data/last_update.json

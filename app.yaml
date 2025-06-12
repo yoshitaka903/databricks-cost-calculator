@@ -1,0 +1,22 @@
+name: databricks-cost-calculator
+description: Databricks料金計算ツール - Streamlitアプリケーション
+
+command: streamlit run src/databricks_cost_calculator.py --server.port 8080 --server.address 0.0.0.0
+
+env:
+  # Streamlit設定
+  STREAMLIT_SERVER_HEADLESS: true
+  STREAMLIT_SERVER_ENABLE_CORS: false
+  STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION: false
+  
+  # アプリケーション設定
+  PYTHONPATH: /Workspace/Users/${DATABRICKS_USER_EMAIL}/databricks-cost-calculator
+  
+  # AWS設定 (必要に応じて設定)
+  # AWS_DEFAULT_REGION: us-east-1
+  # AWS_ACCESS_KEY_ID: ${secrets/scope/aws_access_key_id}
+  # AWS_SECRET_ACCESS_KEY: ${secrets/scope/aws_secret_access_key}
+  
+  # Databricks設定 (必要に応じて設定)
+  # DATABRICKS_HOST: ${secrets/scope/databricks_host}
+  # DATABRICKS_TOKEN: ${secrets/scope/databricks_token}
