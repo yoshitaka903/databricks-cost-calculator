@@ -12,7 +12,7 @@
 
 ```bash
 # プロジェクトディレクトリに移動
-cd /Users/tyoshimura/Document/claude/databricks-cost-calculator
+cd /path/to/your/databricks-cost-calculator
 
 # ソースファイルをDatabricksワークスペースに同期
 databricks sync --watch . /Workspace/Users/YOUR_EMAIL/databricks-cost-calculator
