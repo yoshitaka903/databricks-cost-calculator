@@ -4,7 +4,7 @@
 
 - Python環境とDatabricks CLIをセットアップ済み
 - Databricksワークスペースへのアクセス権限
-- 環境変数の設定: `DATABRICKS_USER_EMAIL`を自分のメールアドレスに設定
+- Databricks CLI認証設定済み: `databricks auth login`
 
 ## デプロイ手順
 
@@ -46,10 +46,12 @@ databricks apps deploy databricks-cost-calculator
 
 | 問題 | 解決策 |
 |------|--------|
+| `error reading app.yaml file` | YAML構文エラー - commandをリスト形式にする |
 | パッケージがない/バージョン違い | requirements.txtに追加・修正 |
 | 権限の問題 | アプリにリソースアクセス権を付与 |
 | 環境変数がない | app.yamlのenvセクションに追加 |
 | 起動コマンドエラー | app.yamlのcommandセクションを修正 |
+| ファイルパスエラー | 相対パス使用・同期先パス確認 |
 
 ## ログ確認
 
