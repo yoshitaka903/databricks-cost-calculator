@@ -30,13 +30,17 @@ class DatabricksCostCalculator:
             with open(data_path / "ec2_pricing.json", "r") as f:
                 ec2_pricing = json.load(f)
                 
+            with open(data_path / "ec2_specs.json", "r") as f:
+                ec2_specs = json.load(f)
+                
             return {
                 "databricks": databricks_pricing,
-                "ec2": ec2_pricing
+                "ec2": ec2_pricing,
+                "ec2_specs": ec2_specs
             }
         except FileNotFoundError:
             st.error("料金データファイルが見つかりません。データファイルを配置してください。")
-            return {"databricks": {}, "ec2": {}}
+            return {"databricks": {}, "ec2": {}, "ec2_specs": {}}
     
     def calculate_databricks_cost(self, config: WorkloadConfig) -> float:
         """Databricks料金計算"""
@@ -93,9 +97,9 @@ def main():
     with st.sidebar:
         st.header("⚙️ アプリ設定")
         default_region = st.selectbox(
-            "デフォルトリージョン",
-            ["us-east-1", "us-west-2", "ap-northeast-1", "eu-west-1"],
-            index=2
+            "リージョン",
+            ["ap-northeast-1"],
+            index=0
         )
         
         currency = st.selectbox("通貨", ["USD", "JPY"], index=0)
@@ -179,11 +183,60 @@ def main():
     with col1:
         st.header("📝 ワークロード設定")
         
+        # インスタンススペック情報表示
+        st.subheader("📊 EC2インスタンススペック情報")
+        
+        # メモリ最適化インスタンス（Rシリーズ）を優先表示
+        if calculator.pricing_data.get("ec2_specs"):
+            specs_data = calculator.pricing_data["ec2_specs"]
+            
+            # インスタンスファミリ別に整理
+            memory_optimized = {k: v for k, v in specs_data.items() if k.startswith(('r5', 'r6i', 'x1e', 'z1d'))}
+            general_purpose = {k: v for k, v in specs_data.items() if k.startswith('m5')}
+            
+            tab1, tab2 = st.tabs(["🧠 メモリ最適化 (推奨)", "⚖️ 汎用"])
+            
+            with tab1:
+                st.markdown("**メモリ最適化インスタンス - 機械学習・分析ワークロードに最適**")
+                for instance_type, specs in memory_optimized.items():
+                    with st.expander(f"**{instance_type}** - {specs['family']} - vCPU: {specs['vcpu']}, メモリ: {specs['memory_gb']}GB"):
+                        col_spec1, col_spec2 = st.columns(2)
+                        with col_spec1:
+                            st.write(f"**vCPU:** {specs['vcpu']}")
+                            st.write(f"**メモリ:** {specs['memory_gb']} GB")
+                        with col_spec2:
+                            st.write(f"**ネットワーク:** {specs['network_performance']}")
+                            st.write(f"**ストレージ:** {specs['storage']}")
+                        
+                        # 料金表示
+                        if instance_type in calculator.pricing_data["ec2"]:
+                            price = calculator.pricing_data["ec2"][instance_type]["ap-northeast-1"]["price_per_hour"]
+                            st.write(f"**料金:** ${price}/時間")
+            
+            with tab2:
+                st.markdown("**汎用インスタンス - バランス型ワークロード向け**")
+                for instance_type, specs in general_purpose.items():
+                    with st.expander(f"**{instance_type}** - {specs['family']} - vCPU: {specs['vcpu']}, メモリ: {specs['memory_gb']}GB"):
+                        col_spec1, col_spec2 = st.columns(2)
+                        with col_spec1:
+                            st.write(f"**vCPU:** {specs['vcpu']}")
+                            st.write(f"**メモリ:** {specs['memory_gb']} GB")
+                        with col_spec2:
+                            st.write(f"**ネットワーク:** {specs['network_performance']}")
+                            st.write(f"**ストレージ:** {specs['storage']}")
+                        
+                        # 料金表示
+                        if instance_type in calculator.pricing_data["ec2"]:
+                            price = calculator.pricing_data["ec2"][instance_type]["ap-northeast-1"]["price_per_hour"]
+                            st.write(f"**料金:** ${price}/時間")
+        
+        st.markdown("---")
+
         # 初期データフレーム
         if "workloads_df" not in st.session_state:
             st.session_state.workloads_df = pd.DataFrame({
                 "ワークロードタイプ": ["all-purpose"],
-                "インスタンスタイプ": ["m5.large"],
+                "インスタンスタイプ": ["r5.large"],
                 "ノード数": [2],
                 "実行時間(時間)": [8.0],
                 "リージョン": [default_region]
@@ -195,12 +248,12 @@ def main():
             column_config={
                 "ワークロードタイプ": st.column_config.SelectboxColumn(
                     "ワークロードタイプ",
-                    options=["all-purpose", "jobs", "dlt", "sql-warehouse"],
+                    options=["all-purpose", "jobs", "dlt-advanced", "sql-warehouse-serverless", "model-serving", "vector-search", "workflow-orchestration", "feature-store", "automl", "unity-catalog"],
                     required=True
                 ),
                 "インスタンスタイプ": st.column_config.SelectboxColumn(
                     "インスタンスタイプ",
-                    options=["m5.large", "m5.xlarge", "m5.2xlarge", "r5.large", "r5.xlarge", "c5.large", "c5.xlarge"],
+                    options=["r5.large", "r5.xlarge", "r5.2xlarge", "r5.4xlarge", "r5.8xlarge", "r5.12xlarge", "r5.16xlarge", "r5.24xlarge", "r6i.large", "r6i.xlarge", "r6i.2xlarge", "r6i.4xlarge", "r6i.8xlarge", "r6i.12xlarge", "r6i.16xlarge", "r6i.24xlarge", "r6i.32xlarge", "x1e.xlarge", "x1e.2xlarge", "x1e.4xlarge", "x1e.8xlarge", "x1e.16xlarge", "x1e.32xlarge", "z1d.large", "z1d.xlarge", "z1d.2xlarge", "z1d.3xlarge", "z1d.6xlarge", "z1d.12xlarge", "m5.large", "m5.xlarge", "m5.2xlarge", "m5.4xlarge", "m5.8xlarge", "m5.12xlarge", "m5.16xlarge", "m5.24xlarge"],
                     required=True
                 ),
                 "ノード数": st.column_config.NumberColumn(
@@ -220,7 +273,7 @@ def main():
                 ),
                 "リージョン": st.column_config.SelectboxColumn(
                     "リージョン",
-                    options=["us-east-1", "us-west-2", "ap-northeast-1", "eu-west-1"],
+                    options=["ap-northeast-1"],
                     required=True
                 )
             },
