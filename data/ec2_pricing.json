@@ -1,0 +1,100 @@
+{
+  "m5.large": {
+    "us-east-1": {
+      "price_per_hour": 0.096
+    },
+    "us-west-2": {
+      "price_per_hour": 0.096
+    },
+    "ap-northeast-1": {
+      "price_per_hour": 0.113
+    },
+    "eu-west-1": {
+      "price_per_hour": 0.107
+    }
+  },
+  "m5.xlarge": {
+    "us-east-1": {
+      "price_per_hour": 0.192
+    },
+    "us-west-2": {
+      "price_per_hour": 0.192
+    },
+    "ap-northeast-1": {
+      "price_per_hour": 0.226
+    },
+    "eu-west-1": {
+      "price_per_hour": 0.214
+    }
+  },
+  "m5.2xlarge": {
+    "us-east-1": {
+      "price_per_hour": 0.384
+    },
+    "us-west-2": {
+      "price_per_hour": 0.384
+    },
+    "ap-northeast-1": {
+      "price_per_hour": 0.452
+    },
+    "eu-west-1": {
+      "price_per_hour": 0.428
+    }
+  },
+  "r5.large": {
+    "us-east-1": {
+      "price_per_hour": 0.126
+    },
+    "us-west-2": {
+      "price_per_hour": 0.126
+    },
+    "ap-northeast-1": {
+      "price_per_hour": 0.148
+    },
+    "eu-west-1": {
+      "price_per_hour": 0.140
+    }
+  },
+  "r5.xlarge": {
+    "us-east-1": {
+      "price_per_hour": 0.252
+    },
+    "us-west-2": {
+      "price_per_hour": 0.252
+    },
+    "ap-northeast-1": {
+      "price_per_hour": 0.296
+    },
+    "eu-west-1": {
+      "price_per_hour": 0.280
+    }
+  },
+  "c5.large": {
+    "us-east-1": {
+      "price_per_hour": 0.085
+    },
+    "us-west-2": {
+      "price_per_hour": 0.085
+    },
+    "ap-northeast-1": {
+      "price_per_hour": 0.100
+    },
+    "eu-west-1": {
+      "price_per_hour": 0.095
+    }
+  },
+  "c5.xlarge": {
+    "us-east-1": {
+      "price_per_hour": 0.170
+    },
+    "us-west-2": {
+      "price_per_hour": 0.170
+    },
+    "ap-northeast-1": {
+      "price_per_hour": 0.200
+    },
+    "eu-west-1": {
+      "price_per_hour": 0.189
+    }
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "all-purpose": {
+    "us-east-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.55
+    },
+    "us-west-2": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.55
+    },
+    "ap-northeast-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.605
+    },
+    "eu-west-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.605
+    }
+  },
+  "jobs": {
+    "us-east-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.15
+    },
+    "us-west-2": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.15
+    },
+    "ap-northeast-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.165
+    },
+    "eu-west-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.165
+    }
+  },
+  "dlt": {
+    "us-east-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.30
+    },
+    "us-west-2": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.30
+    },
+    "ap-northeast-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.33
+    },
+    "eu-west-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.33
+    }
+  },
+  "sql-warehouse": {
+    "us-east-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.22
+    },
+    "us-west-2": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.22
+    },
+    "ap-northeast-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.242
+    },
+    "eu-west-1": {
+      "dbu_per_hour": 1.0,
+      "price_per_dbu": 0.242
+    }
+  }
+}
