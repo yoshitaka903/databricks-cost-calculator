@@ -1,0 +1,2907 @@
+{
+  "metadata": {
+    "region": "ap-northeast-1",
+    "total_instances": 480,
+    "successful_retrievals": 466,
+    "failed_retrievals": 14,
+    "success_rate": "97.1%",
+    "generated_at": "2025-06-14 01:19:28 UTC",
+    "currency": "USD"
+  },
+  "pricing": {
+    "c4.2xlarge": {
+      "price_per_hour": 0.504,
+      "vcpu": "8",
+      "memory": "15 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c4.4xlarge": {
+      "price_per_hour": 1.008,
+      "vcpu": "16",
+      "memory": "30 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c4.8xlarge": {
+      "price_per_hour": 2.016,
+      "vcpu": "36",
+      "memory": "60 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5.12xlarge": {
+      "price_per_hour": 2.568,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5.18xlarge": {
+      "price_per_hour": 3.852,
+      "vcpu": "72",
+      "memory": "144 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5.24xlarge": {
+      "price_per_hour": 5.136,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5.2xlarge": {
+      "price_per_hour": 0.428,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5.4xlarge": {
+      "price_per_hour": 0.856,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5.9xlarge": {
+      "price_per_hour": 1.926,
+      "vcpu": "36",
+      "memory": "72 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5.xlarge": {
+      "price_per_hour": 0.214,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5a.12xlarge": {
+      "price_per_hour": 2.304,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5a.16xlarge": {
+      "price_per_hour": 3.072,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5a.24xlarge": {
+      "price_per_hour": 4.608,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5a.2xlarge": {
+      "price_per_hour": 0.384,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5a.4xlarge": {
+      "price_per_hour": 0.768,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5a.8xlarge": {
+      "price_per_hour": 1.536,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5a.xlarge": {
+      "price_per_hour": 0.192,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5ad.12xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "c5ad.16xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "c5ad.24xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "c5ad.2xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "c5ad.4xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "c5ad.8xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "c5ad.xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "c5d.12xlarge": {
+      "price_per_hour": 2.928,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5d.18xlarge": {
+      "price_per_hour": 4.392,
+      "vcpu": "72",
+      "memory": "144 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5d.24xlarge": {
+      "price_per_hour": 5.856,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5d.2xlarge": {
+      "price_per_hour": 0.488,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5d.4xlarge": {
+      "price_per_hour": 0.976,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5d.9xlarge": {
+      "price_per_hour": 2.196,
+      "vcpu": "36",
+      "memory": "72 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5d.xlarge": {
+      "price_per_hour": 0.244,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5n.18xlarge": {
+      "price_per_hour": 4.896,
+      "vcpu": "72",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5n.2xlarge": {
+      "price_per_hour": 0.544,
+      "vcpu": "8",
+      "memory": "21 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5n.4xlarge": {
+      "price_per_hour": 1.088,
+      "vcpu": "16",
+      "memory": "42 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5n.9xlarge": {
+      "price_per_hour": 2.448,
+      "vcpu": "36",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c5n.xlarge": {
+      "price_per_hour": 0.272,
+      "vcpu": "4",
+      "memory": "10.5 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6g.12xlarge": {
+      "price_per_hour": 2.0544,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6g.16xlarge": {
+      "price_per_hour": 2.7392,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6g.2xlarge": {
+      "price_per_hour": 0.3424,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6g.4xlarge": {
+      "price_per_hour": 0.6848,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6g.8xlarge": {
+      "price_per_hour": 1.3696,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6g.xlarge": {
+      "price_per_hour": 0.1712,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6gd.12xlarge": {
+      "price_per_hour": 2.352,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6gd.16xlarge": {
+      "price_per_hour": 3.136,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6gd.2xlarge": {
+      "price_per_hour": 0.392,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6gd.4xlarge": {
+      "price_per_hour": 0.784,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6gd.8xlarge": {
+      "price_per_hour": 1.568,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6gd.xlarge": {
+      "price_per_hour": 0.196,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6i.12xlarge": {
+      "price_per_hour": 2.568,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6i.16xlarge": {
+      "price_per_hour": 3.424,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6i.24xlarge": {
+      "price_per_hour": 5.136,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6i.2xlarge": {
+      "price_per_hour": 0.428,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6i.32xlarge": {
+      "price_per_hour": 6.848,
+      "vcpu": "128",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6i.4xlarge": {
+      "price_per_hour": 0.856,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6i.8xlarge": {
+      "price_per_hour": 1.712,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6i.xlarge": {
+      "price_per_hour": 0.214,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6id.12xlarge": {
+      "price_per_hour": 3.0744,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6id.16xlarge": {
+      "price_per_hour": 4.0992,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6id.24xlarge": {
+      "price_per_hour": 6.1488,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6id.2xlarge": {
+      "price_per_hour": 0.5124,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6id.32xlarge": {
+      "price_per_hour": 8.1984,
+      "vcpu": "128",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6id.4xlarge": {
+      "price_per_hour": 1.0248,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6id.8xlarge": {
+      "price_per_hour": 2.0496,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6id.xlarge": {
+      "price_per_hour": 0.2562,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6in.12xlarge": {
+      "price_per_hour": 3.4272,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6in.16xlarge": {
+      "price_per_hour": 4.5696,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6in.24xlarge": {
+      "price_per_hour": 6.8544,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6in.2xlarge": {
+      "price_per_hour": 0.5712,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6in.32xlarge": {
+      "price_per_hour": 9.1392,
+      "vcpu": "128",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6in.4xlarge": {
+      "price_per_hour": 1.1424,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6in.8xlarge": {
+      "price_per_hour": 2.2848,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c6in.xlarge": {
+      "price_per_hour": 0.2856,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.12xlarge": {
+      "price_per_hour": 3.1008,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.16xlarge": {
+      "price_per_hour": 4.1344,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.24xlarge": {
+      "price_per_hour": 6.2016,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.2xlarge": {
+      "price_per_hour": 0.5168,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.32xlarge": {
+      "price_per_hour": 8.2688,
+      "vcpu": "128",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.48xlarge": {
+      "price_per_hour": 12.4032,
+      "vcpu": "192",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.4xlarge": {
+      "price_per_hour": 1.0336,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.8xlarge": {
+      "price_per_hour": 2.0672,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7a.xlarge": {
+      "price_per_hour": 0.2584,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7g.12xlarge": {
+      "price_per_hour": 2.183,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7g.16xlarge": {
+      "price_per_hour": 2.9107,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7g.2xlarge": {
+      "price_per_hour": 0.3638,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7g.4xlarge": {
+      "price_per_hour": 0.7277,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7g.8xlarge": {
+      "price_per_hour": 1.4554,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7g.xlarge": {
+      "price_per_hour": 0.1819,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7gd.12xlarge": {
+      "price_per_hour": 2.7672,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7gd.16xlarge": {
+      "price_per_hour": 3.6896,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7gd.2xlarge": {
+      "price_per_hour": 0.4612,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7gd.4xlarge": {
+      "price_per_hour": 0.9224,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7gd.8xlarge": {
+      "price_per_hour": 1.8448,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7gd.xlarge": {
+      "price_per_hour": 0.2306,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.12xlarge": {
+      "price_per_hour": 2.6964,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.16xlarge": {
+      "price_per_hour": 3.5952,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.24xlarge": {
+      "price_per_hour": 5.3928,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.2xlarge": {
+      "price_per_hour": 0.4494,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.48xlarge": {
+      "price_per_hour": 10.7856,
+      "vcpu": "192",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.4xlarge": {
+      "price_per_hour": 0.8988,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.8xlarge": {
+      "price_per_hour": 1.7976,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.large": {
+      "price_per_hour": 0.11235,
+      "vcpu": "2",
+      "memory": "4 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.metal-24xl": {
+      "price_per_hour": 5.3928,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.metal-48xl": {
+      "price_per_hour": 10.7856,
+      "vcpu": "192",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c7i.xlarge": {
+      "price_per_hour": 0.2247,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.12xlarge": {
+      "price_per_hour": 2.40144,
+      "vcpu": "48",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.16xlarge": {
+      "price_per_hour": 3.20192,
+      "vcpu": "64",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.24xlarge": {
+      "price_per_hour": 4.80288,
+      "vcpu": "96",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.2xlarge": {
+      "price_per_hour": 0.40024,
+      "vcpu": "8",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.48xlarge": {
+      "price_per_hour": 9.60576,
+      "vcpu": "192",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.4xlarge": {
+      "price_per_hour": 0.80048,
+      "vcpu": "16",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.8xlarge": {
+      "price_per_hour": 1.60096,
+      "vcpu": "32",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.large": {
+      "price_per_hour": 0.10006,
+      "vcpu": "2",
+      "memory": "4 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.medium": {
+      "price_per_hour": 0.05003,
+      "vcpu": "1",
+      "memory": "2 GiB",
+      "region": "ap-northeast-1"
+    },
+    "c8g.xlarge": {
+      "price_per_hour": 0.20012,
+      "vcpu": "4",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3.2xlarge": {
+      "price_per_hour": 1.448,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3.4xlarge": {
+      "price_per_hour": 2.897,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3.8xlarge": {
+      "price_per_hour": 5.79344,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3.xlarge": {
+      "price_per_hour": 0.724,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3en.12xlarge": {
+      "price_per_hour": 9.1476,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3en.2xlarge": {
+      "price_per_hour": 1.525,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3en.4xlarge": {
+      "price_per_hour": 3.049,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3en.6xlarge": {
+      "price_per_hour": 4.574,
+      "vcpu": "24",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3en.8xlarge": {
+      "price_per_hour": 6.0984,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "d3en.xlarge": {
+      "price_per_hour": 0.762,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g4dn.12xlarge": {
+      "price_per_hour": 5.281,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g4dn.16xlarge": {
+      "price_per_hour": 5.875,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g4dn.2xlarge": {
+      "price_per_hour": 1.015,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g4dn.4xlarge": {
+      "price_per_hour": 1.625,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g4dn.8xlarge": {
+      "price_per_hour": 2.938,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g4dn.xlarge": {
+      "price_per_hour": 0.71,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g5.12xlarge": {
+      "price_per_hour": 8.22609,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g5.16xlarge": {
+      "price_per_hour": 5.94042,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g5.24xlarge": {
+      "price_per_hour": 11.81123,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g5.2xlarge": {
+      "price_per_hour": 1.75776,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g5.48xlarge": {
+      "price_per_hour": 23.62246,
+      "vcpu": "192",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g5.4xlarge": {
+      "price_per_hour": 2.35528,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g5.8xlarge": {
+      "price_per_hour": 3.55033,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "g5.xlarge": {
+      "price_per_hour": 1.459,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i2.2xlarge": {
+      "price_per_hour": 2.001,
+      "vcpu": "8",
+      "memory": "61 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i2.4xlarge": {
+      "price_per_hour": 4.002,
+      "vcpu": "16",
+      "memory": "122 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i2.8xlarge": {
+      "price_per_hour": 8.004,
+      "vcpu": "32",
+      "memory": "244 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i2.xlarge": {
+      "price_per_hour": 1.001,
+      "vcpu": "4",
+      "memory": "30.5 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3.16xlarge": {
+      "price_per_hour": 5.856,
+      "vcpu": "64",
+      "memory": "488 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3.2xlarge": {
+      "price_per_hour": 0.732,
+      "vcpu": "8",
+      "memory": "61 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3.4xlarge": {
+      "price_per_hour": 1.464,
+      "vcpu": "16",
+      "memory": "122 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3.8xlarge": {
+      "price_per_hour": 2.928,
+      "vcpu": "32",
+      "memory": "244 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3.large": {
+      "price_per_hour": 0.183,
+      "vcpu": "2",
+      "memory": "15.25 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3.xlarge": {
+      "price_per_hour": 0.366,
+      "vcpu": "4",
+      "memory": "30.5 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3en.12xlarge": {
+      "price_per_hour": 6.384,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3en.24xlarge": {
+      "price_per_hour": 12.768,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3en.2xlarge": {
+      "price_per_hour": 1.064,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3en.3xlarge": {
+      "price_per_hour": 1.596,
+      "vcpu": "12",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3en.6xlarge": {
+      "price_per_hour": 3.192,
+      "vcpu": "24",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3en.large": {
+      "price_per_hour": 0.266,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i3en.xlarge": {
+      "price_per_hour": 0.532,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i4g.16xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "i4g.2xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "i4g.4xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "i4g.8xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "i4g.large": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "i4g.xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "i4i.16xlarge": {
+      "price_per_hour": 6.442,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i4i.2xlarge": {
+      "price_per_hour": 0.805,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i4i.32xlarge": {
+      "price_per_hour": 12.8832,
+      "vcpu": "128",
+      "memory": "1024 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i4i.4xlarge": {
+      "price_per_hour": 1.61,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i4i.8xlarge": {
+      "price_per_hour": 3.221,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i4i.large": {
+      "price_per_hour": 0.201,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "i4i.xlarge": {
+      "price_per_hour": 0.403,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m4.10xlarge": {
+      "price_per_hour": 2.58,
+      "vcpu": "40",
+      "memory": "160 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m4.16xlarge": {
+      "price_per_hour": 4.128,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m4.2xlarge": {
+      "price_per_hour": 0.516,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m4.4xlarge": {
+      "price_per_hour": 1.032,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m4.large": {
+      "price_per_hour": 0.129,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m4.xlarge": {
+      "price_per_hour": 0.258,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5.12xlarge": {
+      "price_per_hour": 2.976,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5.16xlarge": {
+      "price_per_hour": 3.968,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5.24xlarge": {
+      "price_per_hour": 5.952,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5.2xlarge": {
+      "price_per_hour": 0.496,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5.4xlarge": {
+      "price_per_hour": 0.992,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5.8xlarge": {
+      "price_per_hour": 1.984,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5.large": {
+      "price_per_hour": 0.124,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5.xlarge": {
+      "price_per_hour": 0.248,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5a.12xlarge": {
+      "price_per_hour": 2.688,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5a.16xlarge": {
+      "price_per_hour": 3.584,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5a.24xlarge": {
+      "price_per_hour": 5.376,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5a.2xlarge": {
+      "price_per_hour": 0.448,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5a.4xlarge": {
+      "price_per_hour": 0.896,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5a.8xlarge": {
+      "price_per_hour": 1.792,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5a.large": {
+      "price_per_hour": 0.112,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5a.xlarge": {
+      "price_per_hour": 0.224,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5d.12xlarge": {
+      "price_per_hour": 3.504,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5d.16xlarge": {
+      "price_per_hour": 4.672,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5d.24xlarge": {
+      "price_per_hour": 7.008,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5d.2xlarge": {
+      "price_per_hour": 0.584,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5d.4xlarge": {
+      "price_per_hour": 1.168,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5d.8xlarge": {
+      "price_per_hour": 2.336,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5d.large": {
+      "price_per_hour": 0.146,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5d.xlarge": {
+      "price_per_hour": 0.292,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5dn.12xlarge": {
+      "price_per_hour": 4.2,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5dn.16xlarge": {
+      "price_per_hour": 5.6,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5dn.24xlarge": {
+      "price_per_hour": 8.4,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5dn.2xlarge": {
+      "price_per_hour": 0.7,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5dn.4xlarge": {
+      "price_per_hour": 1.4,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5dn.8xlarge": {
+      "price_per_hour": 2.8,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5dn.large": {
+      "price_per_hour": 0.175,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5dn.xlarge": {
+      "price_per_hour": 0.35,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5n.12xlarge": {
+      "price_per_hour": 3.672,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5n.16xlarge": {
+      "price_per_hour": 4.896,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5n.24xlarge": {
+      "price_per_hour": 7.344,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5n.2xlarge": {
+      "price_per_hour": 0.612,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5n.4xlarge": {
+      "price_per_hour": 1.224,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5n.8xlarge": {
+      "price_per_hour": 2.448,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5n.large": {
+      "price_per_hour": 0.153,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5n.xlarge": {
+      "price_per_hour": 0.306,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5zn.12xlarge": {
+      "price_per_hour": 5.1204,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5zn.2xlarge": {
+      "price_per_hour": 0.8534,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5zn.3xlarge": {
+      "price_per_hour": 1.2801,
+      "vcpu": "12",
+      "memory": "48 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5zn.6xlarge": {
+      "price_per_hour": 2.5602,
+      "vcpu": "24",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5zn.large": {
+      "price_per_hour": 0.2134,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m5zn.xlarge": {
+      "price_per_hour": 0.4267,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6g.12xlarge": {
+      "price_per_hour": 2.376,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6g.16xlarge": {
+      "price_per_hour": 3.168,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6g.2xlarge": {
+      "price_per_hour": 0.396,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6g.4xlarge": {
+      "price_per_hour": 0.792,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6g.8xlarge": {
+      "price_per_hour": 1.584,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6g.large": {
+      "price_per_hour": 0.099,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6g.xlarge": {
+      "price_per_hour": 0.198,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6gd.12xlarge": {
+      "price_per_hour": 2.808,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6gd.16xlarge": {
+      "price_per_hour": 3.744,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6gd.2xlarge": {
+      "price_per_hour": 0.468,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6gd.4xlarge": {
+      "price_per_hour": 0.936,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6gd.8xlarge": {
+      "price_per_hour": 1.872,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6gd.large": {
+      "price_per_hour": 0.117,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6gd.xlarge": {
+      "price_per_hour": 0.234,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.12xlarge": {
+      "price_per_hour": 2.976,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.16xlarge": {
+      "price_per_hour": 3.968,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.24xlarge": {
+      "price_per_hour": 5.952,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.2xlarge": {
+      "price_per_hour": 0.496,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.32xlarge": {
+      "price_per_hour": 7.936,
+      "vcpu": "128",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.4xlarge": {
+      "price_per_hour": 0.992,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.8xlarge": {
+      "price_per_hour": 1.984,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.large": {
+      "price_per_hour": 0.124,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6i.xlarge": {
+      "price_per_hour": 0.248,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.12xlarge": {
+      "price_per_hour": 3.6792,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.16xlarge": {
+      "price_per_hour": 4.9056,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.24xlarge": {
+      "price_per_hour": 7.3584,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.2xlarge": {
+      "price_per_hour": 0.6132,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.32xlarge": {
+      "price_per_hour": 9.8112,
+      "vcpu": "128",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.4xlarge": {
+      "price_per_hour": 1.2264,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.8xlarge": {
+      "price_per_hour": 2.4528,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.large": {
+      "price_per_hour": 0.1533,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6id.xlarge": {
+      "price_per_hour": 0.3066,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.12xlarge": {
+      "price_per_hour": 4.914,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.16xlarge": {
+      "price_per_hour": 6.552,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.24xlarge": {
+      "price_per_hour": 9.828,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.2xlarge": {
+      "price_per_hour": 0.819,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.32xlarge": {
+      "price_per_hour": 13.104,
+      "vcpu": "128",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.4xlarge": {
+      "price_per_hour": 1.638,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.8xlarge": {
+      "price_per_hour": 3.276,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.large": {
+      "price_per_hour": 0.20475,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6idn.xlarge": {
+      "price_per_hour": 0.4095,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.12xlarge": {
+      "price_per_hour": 4.29624,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.16xlarge": {
+      "price_per_hour": 5.72832,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.24xlarge": {
+      "price_per_hour": 8.59248,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.2xlarge": {
+      "price_per_hour": 0.71604,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.32xlarge": {
+      "price_per_hour": 11.45664,
+      "vcpu": "128",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.4xlarge": {
+      "price_per_hour": 1.43208,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.8xlarge": {
+      "price_per_hour": 2.86416,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.large": {
+      "price_per_hour": 0.17901,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m6in.xlarge": {
+      "price_per_hour": 0.35802,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.12xlarge": {
+      "price_per_hour": 3.59352,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.16xlarge": {
+      "price_per_hour": 4.79136,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.24xlarge": {
+      "price_per_hour": 7.18704,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.2xlarge": {
+      "price_per_hour": 0.59892,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.32xlarge": {
+      "price_per_hour": 9.58272,
+      "vcpu": "128",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.48xlarge": {
+      "price_per_hour": 14.37408,
+      "vcpu": "192",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.4xlarge": {
+      "price_per_hour": 1.19784,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.8xlarge": {
+      "price_per_hour": 2.39568,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7a.xlarge": {
+      "price_per_hour": 0.29946,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7g.12xlarge": {
+      "price_per_hour": 2.5296,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7g.16xlarge": {
+      "price_per_hour": 3.3728,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7g.2xlarge": {
+      "price_per_hour": 0.4216,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7g.4xlarge": {
+      "price_per_hour": 0.8432,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7g.8xlarge": {
+      "price_per_hour": 1.6864,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7g.large": {
+      "price_per_hour": 0.1054,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7g.xlarge": {
+      "price_per_hour": 0.2108,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7gd.12xlarge": {
+      "price_per_hour": 3.3113,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7gd.16xlarge": {
+      "price_per_hour": 4.415,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7gd.2xlarge": {
+      "price_per_hour": 0.5519,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7gd.4xlarge": {
+      "price_per_hour": 1.1038,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7gd.8xlarge": {
+      "price_per_hour": 2.2075,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7gd.large": {
+      "price_per_hour": 0.138,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7gd.xlarge": {
+      "price_per_hour": 0.2759,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.12xlarge": {
+      "price_per_hour": 3.1248,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.16xlarge": {
+      "price_per_hour": 4.1664,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.24xlarge": {
+      "price_per_hour": 6.2496,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.2xlarge": {
+      "price_per_hour": 0.5208,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.48xlarge": {
+      "price_per_hour": 12.4992,
+      "vcpu": "192",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.4xlarge": {
+      "price_per_hour": 1.0416,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.8xlarge": {
+      "price_per_hour": 2.0832,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.large": {
+      "price_per_hour": 0.1302,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.metal-24xl": {
+      "price_per_hour": 6.2496,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.metal-48xl": {
+      "price_per_hour": 12.4992,
+      "vcpu": "192",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m7i.xlarge": {
+      "price_per_hour": 0.2604,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.12xlarge": {
+      "price_per_hour": 2.78256,
+      "vcpu": "48",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.16xlarge": {
+      "price_per_hour": 3.71008,
+      "vcpu": "64",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.24xlarge": {
+      "price_per_hour": 5.56512,
+      "vcpu": "96",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.2xlarge": {
+      "price_per_hour": 0.46376,
+      "vcpu": "8",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.48xlarge": {
+      "price_per_hour": 11.13024,
+      "vcpu": "192",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.4xlarge": {
+      "price_per_hour": 0.92752,
+      "vcpu": "16",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.8xlarge": {
+      "price_per_hour": 1.85504,
+      "vcpu": "32",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.large": {
+      "price_per_hour": 0.11594,
+      "vcpu": "2",
+      "memory": "8 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.medium": {
+      "price_per_hour": 0.05797,
+      "vcpu": "1",
+      "memory": "4 GiB",
+      "region": "ap-northeast-1"
+    },
+    "m8g.xlarge": {
+      "price_per_hour": 0.23188,
+      "vcpu": "4",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p2.16xlarge": {
+      "price_per_hour": 24.672,
+      "vcpu": "64",
+      "memory": "732 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p2.8xlarge": {
+      "price_per_hour": 12.336,
+      "vcpu": "32",
+      "memory": "488 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p2.xlarge": {
+      "price_per_hour": 1.542,
+      "vcpu": "4",
+      "memory": "61 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p3.16xlarge": {
+      "price_per_hour": 33.552,
+      "vcpu": "64",
+      "memory": "488 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p3.2xlarge": {
+      "price_per_hour": 4.194,
+      "vcpu": "8",
+      "memory": "61 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p3.8xlarge": {
+      "price_per_hour": 16.776,
+      "vcpu": "32",
+      "memory": "244 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p3dn.24xlarge": {
+      "price_per_hour": 42.783,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p4d.24xlarge": {
+      "price_per_hour": 30.09784,
+      "vcpu": "96",
+      "memory": "1152 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p4de.24xlarge": {
+      "price_per_hour": 37.6223,
+      "vcpu": "96",
+      "memory": "1152 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p5.48xlarge": {
+      "price_per_hour": 68.8,
+      "vcpu": "192",
+      "memory": "2048 GiB",
+      "region": "ap-northeast-1"
+    },
+    "p5e.48xlarge": {
+      "price_per_hour": 0.0,
+      "vcpu": "N/A",
+      "memory": "N/A",
+      "region": "ap-northeast-1",
+      "error": "No matching price found"
+    },
+    "r3.2xlarge": {
+      "price_per_hour": 0.798,
+      "vcpu": "8",
+      "memory": "61 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r3.4xlarge": {
+      "price_per_hour": 1.596,
+      "vcpu": "16",
+      "memory": "122 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r3.8xlarge": {
+      "price_per_hour": 3.192,
+      "vcpu": "32",
+      "memory": "244 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r3.xlarge": {
+      "price_per_hour": 0.399,
+      "vcpu": "4",
+      "memory": "30.5 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r4.16xlarge": {
+      "price_per_hour": 5.12,
+      "vcpu": "64",
+      "memory": "488 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r4.2xlarge": {
+      "price_per_hour": 0.64,
+      "vcpu": "8",
+      "memory": "61 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r4.4xlarge": {
+      "price_per_hour": 1.28,
+      "vcpu": "16",
+      "memory": "122 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r4.8xlarge": {
+      "price_per_hour": 2.56,
+      "vcpu": "32",
+      "memory": "244 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r4.xlarge": {
+      "price_per_hour": 0.32,
+      "vcpu": "4",
+      "memory": "30.5 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5.12xlarge": {
+      "price_per_hour": 3.648,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5.16xlarge": {
+      "price_per_hour": 4.864,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5.24xlarge": {
+      "price_per_hour": 7.296,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5.2xlarge": {
+      "price_per_hour": 0.608,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5.4xlarge": {
+      "price_per_hour": 1.216,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5.8xlarge": {
+      "price_per_hour": 2.432,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5.large": {
+      "price_per_hour": 0.152,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5.xlarge": {
+      "price_per_hour": 0.304,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5a.12xlarge": {
+      "price_per_hour": 3.288,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5a.16xlarge": {
+      "price_per_hour": 4.384,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5a.24xlarge": {
+      "price_per_hour": 6.576,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5a.2xlarge": {
+      "price_per_hour": 0.548,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5a.4xlarge": {
+      "price_per_hour": 1.096,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5a.8xlarge": {
+      "price_per_hour": 2.192,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5a.large": {
+      "price_per_hour": 0.137,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5a.xlarge": {
+      "price_per_hour": 0.274,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5d.12xlarge": {
+      "price_per_hour": 4.176,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5d.16xlarge": {
+      "price_per_hour": 5.568,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5d.24xlarge": {
+      "price_per_hour": 8.352,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5d.2xlarge": {
+      "price_per_hour": 0.696,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5d.4xlarge": {
+      "price_per_hour": 1.392,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5d.8xlarge": {
+      "price_per_hour": 2.784,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5d.large": {
+      "price_per_hour": 0.174,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5d.xlarge": {
+      "price_per_hour": 0.348,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5dn.12xlarge": {
+      "price_per_hour": 4.872,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5dn.16xlarge": {
+      "price_per_hour": 6.496,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5dn.24xlarge": {
+      "price_per_hour": 9.744,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5dn.2xlarge": {
+      "price_per_hour": 0.812,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5dn.4xlarge": {
+      "price_per_hour": 1.624,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5dn.8xlarge": {
+      "price_per_hour": 3.248,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5dn.large": {
+      "price_per_hour": 0.203,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5dn.xlarge": {
+      "price_per_hour": 0.406,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5n.12xlarge": {
+      "price_per_hour": 4.344,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5n.16xlarge": {
+      "price_per_hour": 5.792,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5n.24xlarge": {
+      "price_per_hour": 8.688,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5n.2xlarge": {
+      "price_per_hour": 0.724,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5n.4xlarge": {
+      "price_per_hour": 1.448,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5n.8xlarge": {
+      "price_per_hour": 2.896,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5n.large": {
+      "price_per_hour": 0.181,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r5n.xlarge": {
+      "price_per_hour": 0.362,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6g.12xlarge": {
+      "price_per_hour": 2.9184,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6g.16xlarge": {
+      "price_per_hour": 3.8912,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6g.2xlarge": {
+      "price_per_hour": 0.4864,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6g.4xlarge": {
+      "price_per_hour": 0.9728,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6g.8xlarge": {
+      "price_per_hour": 1.9456,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6g.large": {
+      "price_per_hour": 0.1216,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6g.xlarge": {
+      "price_per_hour": 0.2432,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6gd.12xlarge": {
+      "price_per_hour": 3.336,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6gd.16xlarge": {
+      "price_per_hour": 4.448,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6gd.2xlarge": {
+      "price_per_hour": 0.556,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6gd.4xlarge": {
+      "price_per_hour": 1.112,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6gd.8xlarge": {
+      "price_per_hour": 2.224,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6gd.large": {
+      "price_per_hour": 0.139,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6gd.xlarge": {
+      "price_per_hour": 0.278,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.12xlarge": {
+      "price_per_hour": 3.648,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.16xlarge": {
+      "price_per_hour": 4.864,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.24xlarge": {
+      "price_per_hour": 7.296,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.2xlarge": {
+      "price_per_hour": 0.608,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.32xlarge": {
+      "price_per_hour": 9.728,
+      "vcpu": "128",
+      "memory": "1024 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.4xlarge": {
+      "price_per_hour": 1.216,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.8xlarge": {
+      "price_per_hour": 2.432,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.large": {
+      "price_per_hour": 0.152,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6i.xlarge": {
+      "price_per_hour": 0.304,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.12xlarge": {
+      "price_per_hour": 4.3848,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.16xlarge": {
+      "price_per_hour": 5.8464,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.24xlarge": {
+      "price_per_hour": 8.7696,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.2xlarge": {
+      "price_per_hour": 0.7308,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.32xlarge": {
+      "price_per_hour": 11.6928,
+      "vcpu": "128",
+      "memory": "1024 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.4xlarge": {
+      "price_per_hour": 1.4616,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.8xlarge": {
+      "price_per_hour": 2.9232,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.large": {
+      "price_per_hour": 0.1827,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6id.xlarge": {
+      "price_per_hour": 0.3654,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.12xlarge": {
+      "price_per_hour": 5.70024,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.16xlarge": {
+      "price_per_hour": 7.60032,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.24xlarge": {
+      "price_per_hour": 11.40048,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.2xlarge": {
+      "price_per_hour": 0.95004,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.32xlarge": {
+      "price_per_hour": 15.20064,
+      "vcpu": "128",
+      "memory": "1024 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.4xlarge": {
+      "price_per_hour": 1.90008,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.8xlarge": {
+      "price_per_hour": 3.80016,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.large": {
+      "price_per_hour": 0.23751,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6idn.xlarge": {
+      "price_per_hour": 0.47502,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.12xlarge": {
+      "price_per_hour": 5.08248,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.16xlarge": {
+      "price_per_hour": 6.77664,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.24xlarge": {
+      "price_per_hour": 10.16496,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.2xlarge": {
+      "price_per_hour": 0.84708,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.32xlarge": {
+      "price_per_hour": 13.55328,
+      "vcpu": "128",
+      "memory": "1024 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.4xlarge": {
+      "price_per_hour": 1.69416,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.8xlarge": {
+      "price_per_hour": 3.38832,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.large": {
+      "price_per_hour": 0.21177,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r6in.xlarge": {
+      "price_per_hour": 0.42354,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.12xlarge": {
+      "price_per_hour": 4.40496,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.16xlarge": {
+      "price_per_hour": 5.87328,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.24xlarge": {
+      "price_per_hour": 8.80992,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.2xlarge": {
+      "price_per_hour": 0.73416,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.32xlarge": {
+      "price_per_hour": 11.74656,
+      "vcpu": "128",
+      "memory": "1024 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.48xlarge": {
+      "price_per_hour": 17.61984,
+      "vcpu": "192",
+      "memory": "1536 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.4xlarge": {
+      "price_per_hour": 1.46832,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.8xlarge": {
+      "price_per_hour": 2.93664,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7a.xlarge": {
+      "price_per_hour": 0.36708,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7g.12xlarge": {
+      "price_per_hour": 3.1008,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7g.16xlarge": {
+      "price_per_hour": 4.1344,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7g.2xlarge": {
+      "price_per_hour": 0.5168,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7g.4xlarge": {
+      "price_per_hour": 1.0336,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7g.8xlarge": {
+      "price_per_hour": 2.0672,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7g.large": {
+      "price_per_hour": 0.1292,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7g.xlarge": {
+      "price_per_hour": 0.2584,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7gd.12xlarge": {
+      "price_per_hour": 3.9463,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7gd.16xlarge": {
+      "price_per_hour": 5.2618,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7gd.2xlarge": {
+      "price_per_hour": 0.6577,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7gd.4xlarge": {
+      "price_per_hour": 1.3154,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7gd.8xlarge": {
+      "price_per_hour": 2.6309,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7gd.large": {
+      "price_per_hour": 0.1644,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7gd.xlarge": {
+      "price_per_hour": 0.3289,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.12xlarge": {
+      "price_per_hour": 3.8304,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.16xlarge": {
+      "price_per_hour": 5.1072,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.24xlarge": {
+      "price_per_hour": 7.6608,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.2xlarge": {
+      "price_per_hour": 0.6384,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.48xlarge": {
+      "price_per_hour": 15.3216,
+      "vcpu": "192",
+      "memory": "1536 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.4xlarge": {
+      "price_per_hour": 1.2768,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.8xlarge": {
+      "price_per_hour": 2.5536,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.large": {
+      "price_per_hour": 0.1596,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.metal-24xl": {
+      "price_per_hour": 7.6608,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.metal-48xl": {
+      "price_per_hour": 15.3216,
+      "vcpu": "192",
+      "memory": "1536 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7i.xlarge": {
+      "price_per_hour": 0.3192,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7iz.12xlarge": {
+      "price_per_hour": 5.448,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7iz.16xlarge": {
+      "price_per_hour": 7.264,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7iz.2xlarge": {
+      "price_per_hour": 0.908,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7iz.32xlarge": {
+      "price_per_hour": 14.528,
+      "vcpu": "128",
+      "memory": "1024 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7iz.4xlarge": {
+      "price_per_hour": 1.816,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7iz.8xlarge": {
+      "price_per_hour": 3.632,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r7iz.xlarge": {
+      "price_per_hour": 0.454,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.12xlarge": {
+      "price_per_hour": 3.41088,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.16xlarge": {
+      "price_per_hour": 4.54784,
+      "vcpu": "64",
+      "memory": "512 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.24xlarge": {
+      "price_per_hour": 6.82176,
+      "vcpu": "96",
+      "memory": "768 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.2xlarge": {
+      "price_per_hour": 0.56848,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.48xlarge": {
+      "price_per_hour": 13.64352,
+      "vcpu": "192",
+      "memory": "1536 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.4xlarge": {
+      "price_per_hour": 1.13696,
+      "vcpu": "16",
+      "memory": "128 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.8xlarge": {
+      "price_per_hour": 2.27392,
+      "vcpu": "32",
+      "memory": "256 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.large": {
+      "price_per_hour": 0.14212,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "r8g.xlarge": {
+      "price_per_hour": 0.28424,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    },
+    "z1d.12xlarge": {
+      "price_per_hour": 5.448,
+      "vcpu": "48",
+      "memory": "384 GiB",
+      "region": "ap-northeast-1"
+    },
+    "z1d.2xlarge": {
+      "price_per_hour": 0.908,
+      "vcpu": "8",
+      "memory": "64 GiB",
+      "region": "ap-northeast-1"
+    },
+    "z1d.3xlarge": {
+      "price_per_hour": 1.362,
+      "vcpu": "12",
+      "memory": "96 GiB",
+      "region": "ap-northeast-1"
+    },
+    "z1d.6xlarge": {
+      "price_per_hour": 2.724,
+      "vcpu": "24",
+      "memory": "192 GiB",
+      "region": "ap-northeast-1"
+    },
+    "z1d.large": {
+      "price_per_hour": 0.227,
+      "vcpu": "2",
+      "memory": "16 GiB",
+      "region": "ap-northeast-1"
+    },
+    "z1d.xlarge": {
+      "price_per_hour": 0.454,
+      "vcpu": "4",
+      "memory": "32 GiB",
+      "region": "ap-northeast-1"
+    }
+  }
+}

@@ -1,0 +1,402 @@
+import streamlit as st
+import pandas as pd
+import json
+from pathlib import Path
+import re
+
+def natural_sort_key(instance_type: str):
+    """インスタンスタイプを自然な順序でソートするためのキー関数"""
+    parts = instance_type.split('.')
+    if len(parts) != 2:
+        return (instance_type, 0)
+    
+    family, size = parts
+    size_match = re.match(r'^(\d*)(.*)$', size)
+    if size_match:
+        num_str, size_suffix = size_match.groups()
+        num = int(num_str) if num_str else 0
+    else:
+        num = 0
+        size_suffix = size
+    
+    size_order = {
+        'nano': 0.1, 'micro': 0.2, 'small': 0.3, 'medium': 0.4, 'large': 1,
+        'xlarge': 2, '2xlarge': 3, '4xlarge': 4, '8xlarge': 5, '12xlarge': 6,
+        '16xlarge': 7, '24xlarge': 8, '32xlarge': 9, '48xlarge': 10, 'metal': 100
+    }
+    
+    if num > 0 and size_suffix in ['xlarge']:
+        final_order = size_order.get('xlarge', 1) + num - 1
+    else:
+        final_order = size_order.get(size, 1)
+    
+    return (family, final_order, size)
+
+def load_data():
+    """データ読み込み"""
+    try:
+        base_path = Path(__file__).parent
+        data_path = base_path / "data"
+        
+        with open(data_path / "databricks_compute_pricing_updated.json", "r") as f:
+            databricks_data = json.load(f)
+        
+        with open(data_path / "ec2_pricing_tokyo.json", "r") as f:
+            ec2_data = json.load(f)
+            
+        return databricks_data, ec2_data.get("pricing", {})
+    except Exception as e:
+        st.error(f"データ読み込みエラー: {e}")
+        return {}, {}
+
+def format_instance_option(instance_type: str, ec2_data: dict) -> str:
+    """インスタンスタイプにスペック情報を追加して表示"""
+    if instance_type == "same_as_driver":
+        return "Driverと同じ"
+    spec_info = ec2_data.get(instance_type, {})
+    vcpu = spec_info.get("vcpu", "N/A")
+    memory = spec_info.get("memory", "N/A")
+    return f"{instance_type} ({vcpu} vCPU, {memory})"
+
+def calculate_workload_cost(config: dict, databricks_data: dict, ec2_data: dict) -> dict:
+    """ワークロードの料金を計算"""
+    try:
+        region_data = databricks_data["enterprise"]["aws"]["ap-northeast-1"]
+        
+        # ワークロードキー決定
+        workload_type = config["workload_type"]
+        if config["photon_enabled"]:
+            if workload_type == "all-purpose":
+                workload_key = "all-purpose-photon"
+            elif workload_type == "jobs":
+                workload_key = "jobs-photon"
+            elif workload_type == "dlt-advanced":
+                workload_key = "dlt-advanced-photon"
+        else:
+            workload_key = workload_type
+        
+        workload_pricing = region_data.get(workload_key, {})
+        
+        # Executorインスタンスがdriverと同じ場合の処理
+        actual_executor_instance = config["executor_instance"]
+        if actual_executor_instance == "same_as_driver":
+            actual_executor_instance = config["driver_instance"]
+        
+        # Driver計算
+        driver_data = workload_pricing.get(config["driver_instance"], {})
+        driver_dbu = driver_data.get("dbu_per_hour", 0)
+        driver_rate = driver_data.get("rate_per_hour", 0)
+        driver_monthly = driver_rate * config["monthly_hours"]
+        
+        # Executor計算
+        executor_data = workload_pricing.get(actual_executor_instance, {})
+        executor_dbu = executor_data.get("dbu_per_hour", 0)
+        executor_rate = executor_data.get("rate_per_hour", 0)
+        executor_monthly = executor_rate * config["executor_nodes"] * config["monthly_hours"]
+        
+        # EC2料金
+        driver_ec2 = ec2_data.get(config["driver_instance"], {}).get("price_per_hour", 0) * config["monthly_hours"]
+        executor_ec2 = ec2_data.get(actual_executor_instance, {}).get("price_per_hour", 0) * config["executor_nodes"] * config["monthly_hours"]
+        
+        return {
+            "workload_name": config["workload_name"],
+            "workload_type": workload_key,
+            "driver_instance": config["driver_instance"],
+            "executor_instance": config["executor_instance"],  # UI表示用（"same_as_driver"の場合もあり）
+            "actual_executor_instance": actual_executor_instance,  # 実際の計算用インスタンス
+            "executor_nodes": config["executor_nodes"],
+            "photon_enabled": config["photon_enabled"],
+            "monthly_hours": config["monthly_hours"],
+            "driver_dbu": driver_dbu,
+            "executor_dbu": executor_dbu,
+            "total_dbu": (driver_dbu + executor_dbu * config["executor_nodes"]) * config["monthly_hours"],
+            "databricks_monthly": driver_monthly + executor_monthly,
+            "ec2_monthly": driver_ec2 + executor_ec2,
+            "total_monthly": driver_monthly + executor_monthly + driver_ec2 + executor_ec2
+        }
+    except Exception as e:
+        st.error(f"計算エラー: {e}")
+        return {}
+
+def main():
+    st.set_page_config(page_title="Databricks料金計算", layout="wide")
+    st.title("💰 Databricks料金計算ツール")
+    
+    # セッション状態初期化
+    if "workloads" not in st.session_state:
+        st.session_state.workloads = []
+    
+    # データ読み込み
+    databricks_data, ec2_data = load_data()
+    
+    if not databricks_data:
+        st.error("料金データが読み込めません")
+        return
+    
+    # インスタンスタイプ取得とソート
+    try:
+        region_data = databricks_data["enterprise"]["aws"]["ap-northeast-1"]
+        instance_types = set()
+        for workload_data in region_data.values():
+            if isinstance(workload_data, dict):
+                instance_types.update(workload_data.keys())
+        instance_types = sorted(list(instance_types), key=natural_sort_key)
+        st.sidebar.success(f"{len(instance_types)}個のインスタンスタイプが利用可能")
+    except Exception as e:
+        st.error(f"インスタンス取得エラー: {e}")
+        return
+    
+    # スペック付きインスタンスオプション作成
+    instance_options = [format_instance_option(inst, ec2_data) for inst in instance_types]
+    instance_mapping = {opt: inst for opt, inst in zip(instance_options, instance_types)}
+    
+    # Executorインスタンス用オプション（"Driverと同じ"を先頭に追加）
+    executor_options = ["Driverと同じ"] + instance_options
+    executor_mapping = {"Driverと同じ": "same_as_driver"}
+    executor_mapping.update(instance_mapping)
+    
+    # レイアウト
+    col1, col2 = st.columns([1, 2])
+    
+    with col1:
+        # ワークロード設定セクション
+        st.header("📝 ワークロード設定")
+        
+        with st.form("workload_form"):
+            workload_name = st.text_input("ワークロード名", value=f"ワークロード{len(st.session_state.workloads)+1}")
+            workload_type = st.selectbox("ワークロードタイプ", ["all-purpose", "jobs", "dlt-advanced"])
+            
+            # デフォルトインデックス設定
+            default_driver_idx = next((i for i, opt in enumerate(instance_options) if "r5.large" in opt), 0)
+            
+            driver_option = st.selectbox("Driverインスタンス", instance_options, index=default_driver_idx)
+            executor_option = st.selectbox("Executorインスタンス", executor_options, index=0)  # 初期値は"Driverと同じ"
+            
+            col_form1, col_form2 = st.columns(2)
+            with col_form1:
+                executor_nodes = st.number_input("Executorノード数", min_value=0, max_value=100, value=2)
+                daily_hours = st.number_input("1日利用時間", min_value=1, max_value=24, value=8)
+            with col_form2:
+                monthly_hours = st.number_input("月間利用時間", min_value=1, max_value=744, value=160)
+                photon_enabled = st.checkbox("Photon有効")
+            
+            submitted = st.form_submit_button("➕ ワークロードを追加", type="primary")
+            
+            if submitted:
+                workload_config = {
+                    "workload_name": workload_name,
+                    "workload_type": workload_type,
+                    "driver_instance": instance_mapping[driver_option],
+                    "executor_instance": executor_mapping[executor_option],
+                    "executor_nodes": executor_nodes,
+                    "daily_hours": daily_hours,
+                    "monthly_hours": monthly_hours,
+                    "photon_enabled": photon_enabled
+                }
+                
+                # 計算実行
+                result = calculate_workload_cost(workload_config, databricks_data, ec2_data)
+                if result:
+                    st.session_state.workloads.append(result)
+                    st.success(f"ワークロード '{workload_name}' を追加しました！")
+                    st.rerun()
+        
+        # ワークロード管理
+        if st.session_state.workloads:
+            st.subheader("🗂️ ワークロード管理")
+            for i, workload in enumerate(st.session_state.workloads):
+                col_name, col_edit, col_del = st.columns([2, 1, 1])
+                with col_name:
+                    st.write(f"**{workload['workload_name']}**")
+                with col_edit:
+                    if st.button("✏️", key=f"edit_{i}", help="編集"):
+                        st.session_state.editing_index = i
+                        st.rerun()
+                with col_del:
+                    if st.button("🗑️", key=f"del_{i}", help="削除"):
+                        st.session_state.workloads.pop(i)
+                        if hasattr(st.session_state, 'editing_index') and st.session_state.editing_index >= i:
+                            if st.session_state.editing_index == i:
+                                del st.session_state.editing_index
+                            else:
+                                st.session_state.editing_index -= 1
+                        st.rerun()
+            
+            if st.button("🧹 全クリア"):
+                st.session_state.workloads = []
+                if hasattr(st.session_state, 'editing_index'):
+                    del st.session_state.editing_index
+                st.rerun()
+        
+        # 編集フォーム
+        if hasattr(st.session_state, 'editing_index'):
+            editing_workload = st.session_state.workloads[st.session_state.editing_index]
+            st.subheader("✏️ ワークロード編集")
+            
+            with st.form("edit_workload_form"):
+                edit_name = st.text_input("ワークロード名", value=editing_workload['workload_name'])
+                edit_type = st.selectbox("ワークロードタイプ", 
+                                       ["all-purpose", "jobs", "dlt-advanced"],
+                                       index=["all-purpose", "jobs", "dlt-advanced"].index(editing_workload['workload_type']))
+                
+                # 現在のインスタンスを選択状態にする
+                current_driver_option = format_instance_option(editing_workload['driver_instance'], ec2_data)
+                current_executor_option = format_instance_option(editing_workload['executor_instance'], ec2_data)
+                
+                edit_driver_idx = instance_options.index(current_driver_option) if current_driver_option in instance_options else 0
+                edit_executor_idx = executor_options.index(current_executor_option) if current_executor_option in executor_options else 0
+                
+                edit_driver = st.selectbox("Driverインスタンス", instance_options, index=edit_driver_idx)
+                edit_executor = st.selectbox("Executorインスタンス", executor_options, index=edit_executor_idx)
+                
+                col_edit1, col_edit2 = st.columns(2)
+                with col_edit1:
+                    edit_nodes = st.number_input("Executorノード数", min_value=0, max_value=100, 
+                                               value=editing_workload['executor_nodes'])
+                    edit_daily = st.number_input("1日利用時間", min_value=1, max_value=24, 
+                                               value=editing_workload.get('daily_hours', 8))
+                with col_edit2:
+                    edit_monthly = st.number_input("月間利用時間", min_value=1, max_value=744, 
+                                                 value=editing_workload['monthly_hours'])
+                    edit_photon = st.checkbox("Photon有効", value=editing_workload['photon_enabled'])
+                
+                col_update, col_cancel = st.columns(2)
+                with col_update:
+                    update_submitted = st.form_submit_button("💾 更新", type="primary")
+                with col_cancel:
+                    cancel_submitted = st.form_submit_button("❌ キャンセル")
+                
+                if update_submitted:
+                    updated_config = {
+                        "workload_name": edit_name,
+                        "workload_type": edit_type,
+                        "driver_instance": instance_mapping[edit_driver],
+                        "executor_instance": executor_mapping[edit_executor],
+                        "executor_nodes": edit_nodes,
+                        "daily_hours": edit_daily,
+                        "monthly_hours": edit_monthly,
+                        "photon_enabled": edit_photon
+                    }
+                    
+                    # 再計算
+                    result = calculate_workload_cost(updated_config, databricks_data, ec2_data)
+                    if result:
+                        st.session_state.workloads[st.session_state.editing_index] = result
+                        del st.session_state.editing_index
+                        st.success(f"ワークロード '{edit_name}' を更新しました！")
+                        st.rerun()
+                
+                if cancel_submitted:
+                    del st.session_state.editing_index
+                    st.rerun()
+    
+    with col2:
+        # 結果表示セクション
+        st.header("📊 料金計算結果")
+        
+        if not st.session_state.workloads:
+            st.info("左側でワークロードを設定・追加してください")
+        else:
+            # 合計計算
+            total_databricks = sum(w["databricks_monthly"] for w in st.session_state.workloads)
+            total_ec2 = sum(w["ec2_monthly"] for w in st.session_state.workloads)
+            total_dbu = sum(w["total_dbu"] for w in st.session_state.workloads)
+            grand_total = total_databricks + total_ec2
+            
+            # サマリーメトリクス
+            col_m1, col_m2, col_m3 = st.columns(3)
+            with col_m1:
+                st.metric("Databricks月間", f"${total_databricks:,.2f}")
+            with col_m2:
+                st.metric("EC2月間", f"${total_ec2:,.2f}")
+            with col_m3:
+                st.metric("月間合計", f"${grand_total:,.2f}")
+            
+            # ワークロード明細テーブル
+            st.subheader("📋 ワークロード明細")
+            
+            workload_summary = []
+            for w in st.session_state.workloads:
+                photon_mark = "⚡" if w["photon_enabled"] else ""
+                workload_summary.append({
+                    "ワークロード名": f"{w['workload_name']} {photon_mark}",
+                    "タイプ": w["workload_type"],
+                    "Driver": w["driver_instance"],
+                    "Executor": f"{w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']} ×{w['executor_nodes']}",
+                    "月間時間": f"{w['monthly_hours']}h",
+                    "Databricks": f"${w['databricks_monthly']:,.0f}",
+                    "EC2": f"${w['ec2_monthly']:,.0f}",
+                    "合計": f"${w['total_monthly']:,.0f}"
+                })
+            
+            st.dataframe(pd.DataFrame(workload_summary), use_container_width=True, hide_index=True)
+            
+            # 詳細分析
+            with st.expander("🔍 詳細分析"):
+                st.write(f"**総DBU消費量:** {total_dbu:,.0f} DBU/月")
+                st.write(f"**実効DBU単価:** ${total_databricks/total_dbu:.3f}/DBU" if total_dbu > 0 else "DBU単価計算不可")
+                
+                # 個別ワークロード詳細
+                for w in st.session_state.workloads:
+                    st.write(f"**{w['workload_name']}:**")
+                    st.write(f"- Driver DBU: {w['driver_dbu']:.2f}/h, Executor DBU: {w['executor_dbu']:.2f}/h")
+                    st.write(f"- 月間DBU: {w['total_dbu']:,.0f} DBU")
+                    st.write("")
+            
+            # 計算式表示
+            with st.expander("📐 計算式の詳細"):
+                st.markdown("### 💡 料金計算の仕組み")
+                st.markdown("""
+                **Databricks料金 = DBU消費量 × DBU単価（ワークロード別）**
+                - Driver DBU消費量 = Driver DBU/h × 1ノード × 月間時間
+                - Executor DBU消費量 = Executor DBU/h × ノード数 × 月間時間
+                - Driver料金 = Driver DBU消費量 × DBU単価
+                - Executor料金 = Executor DBU消費量 × DBU単価
+                
+                **EC2料金 = インスタンス時間料金 × 利用時間**
+                - Driver EC2 = Driver時間単価 × 1ノード × 月間時間  
+                - Executor EC2 = Executor時間単価 × ノード数 × 月間時間
+                """)
+                
+                # 個別ワークロードの計算式
+                for i, w in enumerate(st.session_state.workloads):
+                    photon_note = " (Photon有効)" if w['photon_enabled'] else ""
+                    st.markdown(f"### 📋 {w['workload_name']}{photon_note}")
+                    
+                    # EC2料金情報を取得
+                    driver_ec2_rate = ec2_data.get(w['driver_instance'], {}).get("price_per_hour", 0)
+                    executor_ec2_rate = ec2_data.get(w['actual_executor_instance'], {}).get("price_per_hour", 0)
+                    
+                    st.markdown(f"""
+                    **🖥️ インスタンス構成:**
+                    - Driver: {w['driver_instance']} × 1ノード
+                    - Executor: {w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']} × {w['executor_nodes']}ノード{' (Driverと同じ)' if w['executor_instance'] == 'same_as_driver' else ''}
+                    - 月間稼働時間: {w['monthly_hours']}時間
+                    
+                    **💎 Databricks料金計算:**
+                    ```
+                    Driver:  {w['driver_dbu']:.2f} DBU/h × 1ノード × {w['monthly_hours']}h = {w['driver_dbu'] * w['monthly_hours']:.0f} DBU
+                    Executor: {w['executor_dbu']:.2f} DBU/h × {w['executor_nodes']}ノード × {w['monthly_hours']}h = {w['executor_dbu'] * w['executor_nodes'] * w['monthly_hours']:.0f} DBU
+                    合計DBU: {w['total_dbu']:.0f} DBU
+                    DBU単価: {w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0:.3f}$/DBU
+                    Databricks料金: {w['total_dbu']:.0f} DBU × {w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0:.3f}$/DBU = ${w['databricks_monthly']:,.2f}
+                    ```
+                    
+                    **🔧 EC2料金計算:**
+                    ```
+                    Driver EC2:  ${driver_ec2_rate:.4f}/h × 1ノード × {w['monthly_hours']}h = ${driver_ec2_rate * w['monthly_hours']:,.2f}
+                    Executor EC2: ${executor_ec2_rate:.4f}/h × {w['executor_nodes']}ノード × {w['monthly_hours']}h = ${executor_ec2_rate * w['executor_nodes'] * w['monthly_hours']:,.2f}
+                    EC2合計: ${w['ec2_monthly']:,.2f}
+                    ```
+                    
+                    **💰 総合計:**
+                    ```
+                    ${w['databricks_monthly']:,.2f} (Databricks) + ${w['ec2_monthly']:,.2f} (EC2) = ${w['total_monthly']:,.2f}
+                    ```
+                    """)
+                    
+                    if i < len(st.session_state.workloads) - 1:
+                        st.markdown("---")
+
+if __name__ == "__main__":
+    main()
