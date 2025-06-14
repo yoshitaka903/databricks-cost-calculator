@@ -5,6 +5,7 @@ EC2料金取得スクリプトのテスト版
 """
 import sys
 import os
+from pathlib import Path
 sys.path.append(os.path.dirname(__file__))
 
 from fetch_ec2_pricing import EC2PricingFetcher
@@ -34,7 +35,8 @@ def main():
         print(f"{status} {instance_type:12} | ${price:8.4f}/h | {vcpu:2} vCPU | {memory:10}")
     
     # 簡易保存
-    output_file = "/Users/tyoshimura/Document/claude/databricks-cost-calculator/data/ec2_pricing_test.json"
+    script_dir = Path(__file__).parent.parent
+    output_file = script_dir / "src" / "data" / "ec2_pricing_test.json"
     fetcher.save_pricing_data(pricing_data, output_file)
     
     print(f"\n💾 テスト結果保存: {output_file}")

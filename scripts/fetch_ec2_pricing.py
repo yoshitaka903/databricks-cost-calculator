@@ -211,8 +211,9 @@ def main():
     
     # 設定
     region = "ap-northeast-1"  # 東京リージョン
-    databricks_file = "/Users/tyoshimura/Document/claude/databricks-cost-calculator/data/databricks_compute_pricing_updated.json"
-    output_file = "/Users/tyoshimura/Document/claude/databricks-cost-calculator/data/ec2_pricing_tokyo.json"
+    script_dir = Path(__file__).parent.parent
+    databricks_file = script_dir / "src" / "data" / "databricks_compute_pricing_updated.json"
+    output_file = script_dir / "src" / "data" / "ec2_pricing_tokyo.json"
     
     # 料金取得実行
     fetcher = EC2PricingFetcher(region=region)
