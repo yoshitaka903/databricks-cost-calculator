@@ -2,8 +2,6 @@
 
 Databricksワークロードの料金を計算するStreamlitアプリケーションです。All-Purpose、Jobs、DLTなどのクラスター型ワークロードやSQL Warehouse Serverlessについて、DatabricksとAWS EC2の料金を自動計算し、スプレッドシート出力機能を提供します。
 
-**🚀 Databricks Apps対応**: Databricks Free Editionで無料デプロイ可能！
-
 ## 前提条件・制限事項
 
 - **対象リージョン**: AWS 東京リージョン（ap-northeast-1）のみ
@@ -121,22 +119,13 @@ databricks apps deploy .
 - **データ形式**: JSON
 - **デプロイ**: Databricks Apps対応
 
-## コントリビューション
-
-1. このリポジトリをフォーク
-2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
-3. 変更をコミット (`git commit -m 'Add amazing feature'`)
-4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成
-
 ## ライセンス
 
 このプロジェクトはMITライセンスの下で公開されています。
 
 ## 作者
 
-- **Yoshitaka Osimura** - [@yoshitaka903](https://github.com/yoshitaka903)
+- [@yoshitaka903](https://github.com/yoshitaka903)
 
 ---
-
 **⭐ このプロジェクトが役に立った場合は、スターをつけていただけると嬉しいです！**

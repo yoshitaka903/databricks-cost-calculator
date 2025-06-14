@@ -173,7 +173,7 @@ def calculate_workload_cost(config: dict, databricks_data: dict, ec2_data: dict,
 
 def main():
     st.set_page_config(page_title="Databricks料金計算", layout="wide")
-    st.title("💰 Databricks料金計算ツール")
+    st.title("💰 Databricks料金試算")
     
     # セッション状態初期化
     if "workloads" not in st.session_state:
