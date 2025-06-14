@@ -1,55 +1,74 @@
 # Databricks Cost Calculator
 
-Databricksワークロードの料金を計算するStreamlitアプリケーションです。クラスター型ワークロードとSQL Warehouse Serverlessの両方に対応し、詳細な料金分析とスプレッドシート出力機能を提供します。
+Databricksワークロードの料金を計算するStreamlitアプリケーションです。All-Purpose、Jobs、DLTなどのクラスター型ワークロードやSQL Warehouse Serverlessについて、DatabricksとAWS EC2の料金を自動計算し、スプレッドシート出力機能を提供します。
 
-## フォルダ構成
+**🚀 Databricks Apps対応**: Databricks Free Editionで無料デプロイ可能！
+
+## 前提条件・制限事項
+
+- **対象リージョン**: AWS 東京リージョン（ap-northeast-1）のみ
+- **料金精度**: 算出価格は目安です。正確な金額は各ベンダーの公式情報をご確認ください
+- **対応ワークロード**: All-Purpose、Jobs、DLT、SQL Warehouse Serverless
+
+## プロジェクト構成
 
 ```
 databricks-cost-calculator/
-├── src/                           # 本番デプロイ用ソース
-│   ├── simple_app.py             # メインStreamlitアプリケーション
-│   ├── app.py                    # 旧バージョン（参考用）
-│   ├── requirements.txt          # 本番用依存関係
+├── src/                           # デプロイ対象（本番用）
+│   ├── app.py                    # メインStreamlitアプリケーション
 │   ├── app.yaml                 # Databricks Apps設定
-│   └── data/                    # 本番用データファイル
-│       ├── databricks_compute_pricing_updated.json  # Databricks料金データ
-│       ├── ec2_pricing_tokyo.json                   # EC2料金データ（東京）
-│       └── sql_warehouse_sizes.json                 # SQL Warehouseサイズ情報
-├── dev/                          # 開発・テスト用
-│   ├── streamlit_app.py         # 開発用アプリ
-│   └── requirements-dev.txt     # 開発用依存関係
+│   ├── requirements.txt          # 依存関係
+│   └── data/                    # 料金データファイル
+│       ├── databricks_compute_pricing_updated.json
+│       ├── ec2_pricing_tokyo.json
+│       ├── ec2_specs.json
+│       ├── instance_dbu_rates.json
+│       └── sql_warehouse_sizes.json
 ├── docs/                         # ドキュメント
-│   ├── README.md               # 詳細ドキュメント
+│   ├── README.md
 │   └── DEPLOY.md               # デプロイガイド
 ├── scripts/                      # ユーティリティスクリプト
-│   ├── fetch_ec2_pricing.py    # EC2料金取得スクリプト
-│   └── pricing_updater.py      # 料金データ更新スクリプト
-└── data/                        # 共通データファイル
-    ├── databricks_compute_pricing_updated.json
-    ├── ec2_pricing_tokyo.json
-    ├── instance_dbu_rates.json
-    └── sql_warehouse_sizes.json
+│   ├── fetch_ec2_pricing.py    # EC2料金取得
+│   ├── test_ec2_pricing.py     # テスト用スクリプト
+│   ├── pricing_updater.py      # 料金データ更新
+│   ├── process_pricing_data.py # データ処理
+│   └── debug_aws_pricing.py    # デバッグ用
+├── config/                       # 設定ファイル
+├── blog_article_draft.md        # ハンズオン記事
+└── README.md                    # このファイル
 ```
 
-## ローカル開発環境での実行
+## 🚀 クイックスタート
 
+### ローカル実行
 ```bash
+# リポジトリをクローン
+git clone https://github.com/yoshitaka903/databricks-cost-calculator.git
+cd databricks-cost-calculator
+
 # 依存関係のインストール
 pip install -r src/requirements.txt
 
 # アプリケーションの起動
-streamlit run src/simple_app.py
+streamlit run src/app.py
 ```
 
-## 本番デプロイ（Databricks Apps）
+### Databricks Appsデプロイ
+```bash
+# srcディレクトリに移動
+cd src
 
-`src/`フォルダ全体をDatabricks Appsにデプロイしてください。
+# Databricks Appsにデプロイ
+databricks apps deploy .
+```
 
-**必要なファイル:**
-- `src/simple_app.py` - メインアプリケーション
-- `src/app.yaml` - Databricks Apps設定
-- `src/requirements.txt` - 依存関係
-- `src/data/` - 料金データ
+**📋 デプロイに必要なファイル:**
+- `app.py` - メインアプリケーション
+- `app.yaml` - Databricks Apps設定
+- `requirements.txt` - 依存関係
+- `data/` - 料金データ
+
+**👉 詳細手順**: [ハンズオン記事](./blog_article_draft.md)を参照
 
 ## 主な機能
 
@@ -63,16 +82,18 @@ streamlit run src/simple_app.py
 - **DBU料金**: ワークロード別DBU単価 × DBU消費量
 - **EC2料金**: インスタンス別時間単価 × 利用時間
 - **Photon対応**: 専用料金体系とDBU消費量
+- **自動計算**: 設定変更時のリアルタイム更新
 
-### データ出力
+### データ出力・分析
 - **Excel出力**: 詳細データ + サマリーシート
 - **CSV出力**: 詳細データ
 - **計算式表示**: 透明性のある料金計算プロセス
+- **コスト比較**: 複数インスタンスタイプの並列比較
 
 ### 管理機能
 - **ワークロード編集**: クラスター型・SQL Warehouse両対応
 - **複数ワークロード管理**: 統合された料金表示
-- **リアルタイム計算**: 設定変更時の即座な再計算
+- **設定保存**: ブラウザセッション間での設定維持
 
 ## データ仕様
 
@@ -94,8 +115,28 @@ streamlit run src/simple_app.py
 
 ## 技術仕様
 
-- **フレームワーク**: Streamlit
+- **フレームワーク**: Streamlit 1.28.0
 - **Python**: 3.9+
-- **主要ライブラリ**: pandas, openpyxl, boto3
+- **主要ライブラリ**: pandas, openpyxl
 - **データ形式**: JSON
 - **デプロイ**: Databricks Apps対応
+
+## コントリビューション
+
+1. このリポジトリをフォーク
+2. 機能ブランチを作成 (`git checkout -b feature/amazing-feature`)
+3. 変更をコミット (`git commit -m 'Add amazing feature'`)
+4. ブランチにプッシュ (`git push origin feature/amazing-feature`)
+5. プルリクエストを作成
+
+## ライセンス
+
+このプロジェクトはMITライセンスの下で公開されています。
+
+## 作者
+
+- **Yoshitaka Osimura** - [@yoshitaka903](https://github.com/yoshitaka903)
+
+---
+
+**⭐ このプロジェクトが役に立った場合は、スターをつけていただけると嬉しいです！**
