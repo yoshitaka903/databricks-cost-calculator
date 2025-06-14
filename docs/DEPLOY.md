@@ -79,8 +79,9 @@ src/
 databricks apps list
 databricks apps describe databricks-cost-calculator
 
-# ログ確認
-databricks apps logs databricks-cost-calculator
+# 状態確認
+databricks apps get databricks-cost-calculator
+databricks apps list-deployments databricks-cost-calculator
 
 # アプリの停止・再開
 databricks apps stop databricks-cost-calculator

@@ -1,4 +1,7 @@
 name: databricks-cost-calculator
 description: Databricks Cost Calculator
 
-command: ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
+command: 
+  - streamlit
+  - run
+  - app.py
