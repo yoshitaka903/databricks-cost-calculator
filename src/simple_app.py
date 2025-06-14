@@ -45,11 +45,18 @@ def load_data():
         
         with open(data_path / "ec2_pricing_tokyo.json", "r") as f:
             ec2_data = json.load(f)
+        
+        # SQL Warehouseサイズデータ読み込み
+        sql_warehouse_file = data_path / "sql_warehouse_sizes.json"
+        sql_warehouse_data = {}
+        if sql_warehouse_file.exists():
+            with open(sql_warehouse_file, "r") as f:
+                sql_warehouse_data = json.load(f)
             
-        return databricks_data, ec2_data.get("pricing", {})
+        return databricks_data, ec2_data.get("pricing", {}), sql_warehouse_data
     except Exception as e:
         st.error(f"データ読み込みエラー: {e}")
-        return {}, {}
+        return {}, {}, {}
 
 def format_instance_option(instance_type: str, ec2_data: dict) -> str:
     """インスタンスタイプにスペック情報を追加して表示"""
@@ -60,9 +67,49 @@ def format_instance_option(instance_type: str, ec2_data: dict) -> str:
     memory = spec_info.get("memory", "N/A")
     return f"{instance_type} ({vcpu} vCPU, {memory})"
 
-def calculate_workload_cost(config: dict, databricks_data: dict, ec2_data: dict) -> dict:
+def calculate_workload_cost(config: dict, databricks_data: dict, ec2_data: dict, sql_warehouse_data: dict = None) -> dict:
     """ワークロードの料金を計算"""
     try:
+        # SQL Warehouseの場合
+        if config["workload_type"] == "sql-warehouse-serverless":
+            if not sql_warehouse_data:
+                st.error("SQL Warehouseデータが見つかりません")
+                return {}
+            
+            # SQL Warehouseサイズ別DBU消費量を取得
+            size_info = sql_warehouse_data.get(config["sql_warehouse_size"], {})
+            dbu_per_hour = size_info.get("dbu_per_hour", 0)
+            
+            # クラスタ数とサイズに基づく計算
+            total_dbu_per_hour = dbu_per_hour * config["sql_warehouse_clusters"]
+            total_dbu_monthly = total_dbu_per_hour * config["monthly_hours"]
+            
+            # DBU単価（固定値として$1.0を仮定、実際の値に応じて調整）
+            dbu_price = 1.0
+            total_databricks_monthly = total_dbu_monthly * dbu_price
+            
+            return {
+                "workload_name": config["workload_name"],
+                "workload_type": config["workload_type"],
+                "sql_warehouse_size": config["sql_warehouse_size"],
+                "sql_warehouse_clusters": config["sql_warehouse_clusters"],
+                "driver_instance": "",
+                "executor_instance": "",
+                "actual_executor_instance": "",
+                "executor_nodes": 0,
+                "photon_enabled": False,
+                "monthly_hours": config["monthly_hours"],
+                "daily_hours": config.get("daily_hours", 8),
+                "monthly_days": config.get("monthly_days", 20),
+                "driver_dbu": 0,
+                "executor_dbu": total_dbu_per_hour,
+                "total_dbu": total_dbu_monthly,
+                "databricks_monthly": total_databricks_monthly,
+                "ec2_monthly": 0,  # SQL WarehouseはServerlessなのでEC2料金なし
+                "total_monthly": total_databricks_monthly
+            }
+        
+        # クラスター型ワークロードの場合
         region_data = databricks_data["enterprise"]["aws"]["ap-northeast-1"]
         
         # ワークロードキー決定
@@ -109,12 +156,16 @@ def calculate_workload_cost(config: dict, databricks_data: dict, ec2_data: dict)
             "executor_nodes": config["executor_nodes"],
             "photon_enabled": config["photon_enabled"],
             "monthly_hours": config["monthly_hours"],
+            "daily_hours": config.get("daily_hours", 8),
+            "monthly_days": config.get("monthly_days", 20),
             "driver_dbu": driver_dbu,
             "executor_dbu": executor_dbu,
             "total_dbu": (driver_dbu + executor_dbu * config["executor_nodes"]) * config["monthly_hours"],
             "databricks_monthly": driver_monthly + executor_monthly,
             "ec2_monthly": driver_ec2 + executor_ec2,
-            "total_monthly": driver_monthly + executor_monthly + driver_ec2 + executor_ec2
+            "total_monthly": driver_monthly + executor_monthly + driver_ec2 + executor_ec2,
+            "sql_warehouse_size": config.get("sql_warehouse_size", ""),
+            "sql_warehouse_clusters": config.get("sql_warehouse_clusters", 1)
         }
     except Exception as e:
         st.error(f"計算エラー: {e}")
@@ -129,7 +180,7 @@ def main():
         st.session_state.workloads = []
     
     # データ読み込み
-    databricks_data, ec2_data = load_data()
+    databricks_data, ec2_data, sql_warehouse_data = load_data()
     
     if not databricks_data:
         st.error("料金データが読み込めません")
@@ -163,8 +214,9 @@ def main():
         
         with st.form("workload_form"):
             workload_name = st.text_input("ワークロード名", value=f"ワークロード{len(st.session_state.workloads)+1}")
-            workload_type = st.selectbox("ワークロードタイプ", ["all-purpose", "jobs", "dlt-advanced"])
+            workload_type = st.selectbox("ワークロードタイプ", ["all-purposeクラスター", "jobsクラスター", "dlt-advancedクラスター"])
             
+            # クラスター型ワークロード用フィールド
             # デフォルトインデックス設定
             default_driver_idx = next((i for i, opt in enumerate(instance_options) if "r5.large" in opt), 0)
             
@@ -183,6 +235,7 @@ def main():
             submitted = st.form_submit_button("➕ ワークロードを追加", type="primary")
             
             if submitted:
+                # クラスター型ワークロード設定
                 # ワークロードタイプから"クラスター"を除去
                 clean_workload_type = workload_type.replace("クラスター", "")
                 
@@ -195,11 +248,13 @@ def main():
                     "daily_hours": daily_hours,
                     "monthly_days": monthly_days,
                     "monthly_hours": monthly_hours,
-                    "photon_enabled": photon_enabled
+                    "photon_enabled": photon_enabled,
+                    "sql_warehouse_size": "",
+                    "sql_warehouse_clusters": 1
                 }
                 
                 # 計算実行
-                result = calculate_workload_cost(workload_config, databricks_data, ec2_data)
+                result = calculate_workload_cost(workload_config, databricks_data, ec2_data, sql_warehouse_data)
                 if result:
                     st.session_state.workloads.append(result)
                     st.success(f"ワークロード '{workload_name}' を追加しました！")
@@ -232,6 +287,48 @@ def main():
                     del st.session_state.editing_index
                 st.rerun()
 
+        # SQL Warehouse専用セクション
+        st.header("🏢 SQL Warehouse設定")
+        
+        with st.form("sql_warehouse_form"):
+            sql_workload_name = st.text_input("SQL Warehouseワークロード名", value=f"SQL Warehouse {len([w for w in st.session_state.workloads if w.get('workload_type') == 'sql-warehouse-serverless'])+1}")
+            
+            # SQL Warehouseサイズ選択
+            sql_warehouse_sizes = list(sql_warehouse_data.keys()) if sql_warehouse_data else ["2X-Small", "X-Small", "Small", "Medium", "Large"]
+            sql_warehouse_size = st.selectbox("SQL Warehouseサイズ", sql_warehouse_sizes, index=3)  # Mediumをデフォルト
+            sql_warehouse_clusters = st.number_input("クラスタ数", min_value=1, max_value=10, value=1)
+            
+            sql_daily_hours = st.number_input("1日あたりの利用時間", min_value=1, max_value=24, value=8, key="sql_daily")
+            sql_monthly_days = st.number_input("月間利用日数", min_value=1, max_value=31, value=20, key="sql_monthly_days")
+            
+            # 月間利用時間を自動計算して表示
+            sql_monthly_hours = sql_daily_hours * sql_monthly_days
+            st.info(f"📅 月間利用時間: {sql_monthly_hours}時間 ({sql_daily_hours}時間/日 × {sql_monthly_days}日)")
+            
+            sql_submitted = st.form_submit_button("➕ SQL Warehouseを追加", type="primary")
+            
+            if sql_submitted:
+                sql_workload_config = {
+                    "workload_name": sql_workload_name,
+                    "workload_type": "sql-warehouse-serverless",
+                    "sql_warehouse_size": sql_warehouse_size,
+                    "sql_warehouse_clusters": sql_warehouse_clusters,
+                    "daily_hours": sql_daily_hours,
+                    "monthly_days": sql_monthly_days,
+                    "monthly_hours": sql_monthly_hours,
+                    "driver_instance": "",
+                    "executor_instance": "",
+                    "executor_nodes": 0,
+                    "photon_enabled": False
+                }
+                
+                # 計算実行
+                sql_result = calculate_workload_cost(sql_workload_config, databricks_data, ec2_data, sql_warehouse_data)
+                if sql_result:
+                    st.session_state.workloads.append(sql_result)
+                    st.success(f"SQL Warehouseワークロード '{sql_workload_name}' を追加しました！")
+                    st.rerun()
+
         # 編集フォームもサイドバーに
         if hasattr(st.session_state, 'editing_index'):
             editing_workload = st.session_state.workloads[st.session_state.editing_index]
@@ -239,10 +336,69 @@ def main():
             
             with st.form("edit_workload_form"):
                 edit_name = st.text_input("ワークロード名", value=editing_workload['workload_name'])
+                # SQL Warehouseかクラスターかで分岐
+                if editing_workload['workload_type'] == "sql-warehouse-serverless":
+                    # SQL Warehouse編集
+                    sql_warehouse_sizes = list(sql_warehouse_data.keys()) if sql_warehouse_data else ["2X-Small", "X-Small", "Small", "Medium", "Large"]
+                    current_size_idx = sql_warehouse_sizes.index(editing_workload.get('sql_warehouse_size', 'Medium')) if editing_workload.get('sql_warehouse_size', 'Medium') in sql_warehouse_sizes else 3
+                    
+                    edit_sql_size = st.selectbox("SQL Warehouseサイズ", sql_warehouse_sizes, index=current_size_idx)
+                    edit_sql_clusters = st.number_input("クラスタ数", min_value=1, max_value=10, 
+                                                      value=editing_workload.get('sql_warehouse_clusters', 1))
+                    
+                    edit_daily = st.number_input("1日あたりの利用時間", min_value=1, max_value=24, 
+                                               value=editing_workload.get('daily_hours', 8))
+                    edit_monthly_days = st.number_input("月間利用日数", min_value=1, max_value=31, 
+                                                      value=editing_workload.get('monthly_days', 20))
+                    
+                    # 月間利用時間を自動計算して表示
+                    edit_monthly = edit_daily * edit_monthly_days
+                    st.info(f"📅 月間利用時間: {edit_monthly}時間 ({edit_daily}時間/日 × {edit_monthly_days}日)")
+                    
+                    col_update, col_cancel = st.columns(2)
+                    with col_update:
+                        update_submitted = st.form_submit_button("💾 更新", type="primary")
+                    with col_cancel:
+                        cancel_submitted = st.form_submit_button("❌ キャンセル")
+                    
+                    if update_submitted:
+                        # SQL Warehouse更新設定
+                        updated_config = {
+                            "workload_name": edit_name,
+                            "workload_type": "sql-warehouse-serverless",
+                            "sql_warehouse_size": edit_sql_size,
+                            "sql_warehouse_clusters": edit_sql_clusters,
+                            "daily_hours": edit_daily,
+                            "monthly_days": edit_monthly_days,
+                            "monthly_hours": edit_monthly,
+                            "driver_instance": "",
+                            "executor_instance": "",
+                            "executor_nodes": 0,
+                            "photon_enabled": False
+                        }
+                        
+                        # 再計算
+                        result = calculate_workload_cost(updated_config, databricks_data, ec2_data, sql_warehouse_data)
+                        if result:
+                            st.session_state.workloads[st.session_state.editing_index] = result
+                            del st.session_state.editing_index
+                            st.success(f"SQL Warehouseワークロード '{edit_name}' を更新しました！")
+                            st.rerun()
+                    
+                    if cancel_submitted:
+                        del st.session_state.editing_index
+                        st.rerun()
+                    
+                    return
+                
+                # 編集時のワークロードタイプ表示名の変換  
+                current_type_display = editing_workload['workload_type'] + "クラスター"
+                
                 edit_type = st.selectbox("ワークロードタイプ", 
                                        ["all-purposeクラスター", "jobsクラスター", "dlt-advancedクラスター"],
-                                       index=["all-purposeクラスター", "jobsクラスター", "dlt-advancedクラスター"].index(editing_workload['workload_type'] + "クラスター"))
+                                       index=["all-purposeクラスター", "jobsクラスター", "dlt-advancedクラスター"].index(current_type_display))
                 
+                # クラスター編集（SQL Warehouseは除外済み）
                 # 現在のインスタンスを選択状態にする
                 current_driver_option = format_instance_option(editing_workload['driver_instance'], ec2_data)
                 current_executor_option = format_instance_option(editing_workload['executor_instance'], ec2_data)
@@ -275,6 +431,7 @@ def main():
                     cancel_submitted = st.form_submit_button("❌ キャンセル")
                 
                 if update_submitted:
+                    # クラスター型ワークロード更新設定（SQL Warehouseは除外済み）
                     # ワークロードタイプから"クラスター"を除去
                     clean_edit_type = edit_type.replace("クラスター", "")
                     
@@ -287,11 +444,13 @@ def main():
                         "daily_hours": edit_daily,
                         "monthly_days": edit_monthly_days,
                         "monthly_hours": edit_monthly,
-                        "photon_enabled": edit_photon
+                        "photon_enabled": edit_photon,
+                        "sql_warehouse_size": "",
+                        "sql_warehouse_clusters": 1
                     }
                     
                     # 再計算
-                    result = calculate_workload_cost(updated_config, databricks_data, ec2_data)
+                    result = calculate_workload_cost(updated_config, databricks_data, ec2_data, sql_warehouse_data)
                     if result:
                         st.session_state.workloads[st.session_state.editing_index] = result
                         del st.session_state.editing_index
@@ -332,30 +491,48 @@ def main():
                 # 詳細データをDataFrameに変換
                 export_data = []
                 for w in st.session_state.workloads:
-                    photon_status = "有効" if w["photon_enabled"] else "無効"
-                    actual_executor = w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']
-                    executor_display = f"{actual_executor} ×{w['executor_nodes']}"
-                    if w['executor_instance'] == 'same_as_driver':
-                        executor_display += " (Driverと同じ)"
-                    
                     # DBU単価を計算
                     dbu_unit_price = w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0
                     
-                    export_data.append({
-                        "ワークロード名": w['workload_name'],
-                        "ワークロードタイプ": w['workload_type'],
-                        "Photon": photon_status,
-                        "Driverインスタンス": w['driver_instance'],
-                        "Executorインスタンス": executor_display,
-                        "月間利用時間": f"{w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)",
-                        "Driver DBU/h": f"{w['driver_dbu']:.2f}",
-                        "Executor DBU/h": f"{w['executor_dbu']:.2f}",
-                        "月間総DBU": f"{w['total_dbu']:.0f}",
-                        "DBU単価": f"${dbu_unit_price:.3f}",
-                        "Databricks料金(月)": f"${w['databricks_monthly']:,.2f}",
-                        "EC2料金(月)": f"${w['ec2_monthly']:,.2f}",
-                        "合計料金(月)": f"${w['total_monthly']:,.2f}"
-                    })
+                    # SQL Warehouseの場合とクラスターの場合で分岐
+                    if w["workload_type"] == "sql-warehouse-serverless":
+                        # SQL Warehouse用のエクスポートデータ
+                        export_data.append({
+                            "ワークロード名": w['workload_name'],
+                            "ワークロードタイプ": w['workload_type'],
+                            "SQL Warehouseサイズ": w.get('sql_warehouse_size', ''),
+                            "クラスタ数": w.get('sql_warehouse_clusters', 1),
+                            "月間利用時間": f"{w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)",
+                            "DBU/h": f"{w['executor_dbu']:.2f}",
+                            "月間総DBU": f"{w['total_dbu']:.0f}",
+                            "DBU単価": f"${dbu_unit_price:.3f}",
+                            "Databricks料金(月)": f"${w['databricks_monthly']:,.2f}",
+                            "EC2料金(月)": f"${w['ec2_monthly']:,.2f}",
+                            "合計料金(月)": f"${w['total_monthly']:,.2f}"
+                        })
+                    else:
+                        # クラスター型ワークロード用のエクスポートデータ
+                        photon_status = "有効" if w["photon_enabled"] else "無効"
+                        actual_executor = w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']
+                        executor_display = f"{actual_executor} ×{w['executor_nodes']}"
+                        if w['executor_instance'] == 'same_as_driver':
+                            executor_display += " (Driverと同じ)"
+                        
+                        export_data.append({
+                            "ワークロード名": w['workload_name'],
+                            "ワークロードタイプ": w['workload_type'],
+                            "Photon": photon_status,
+                            "Driverインスタンス": w['driver_instance'],
+                            "Executorインスタンス": executor_display,
+                            "月間利用時間": f"{w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)",
+                            "Driver DBU/h": f"{w['driver_dbu']:.2f}",
+                            "Executor DBU/h": f"{w['executor_dbu']:.2f}",
+                            "月間総DBU": f"{w['total_dbu']:.0f}",
+                            "DBU単価": f"${dbu_unit_price:.3f}",
+                            "Databricks料金(月)": f"${w['databricks_monthly']:,.2f}",
+                            "EC2料金(月)": f"${w['ec2_monthly']:,.2f}",
+                            "合計料金(月)": f"${w['total_monthly']:,.2f}"
+                        })
                 
                 export_df = pd.DataFrame(export_data)
                 
@@ -386,29 +563,47 @@ def main():
             # CSV出力
             export_data = []
             for w in st.session_state.workloads:
-                photon_status = "有効" if w["photon_enabled"] else "無効"
-                actual_executor = w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']
-                executor_display = f"{actual_executor} ×{w['executor_nodes']}"
-                if w['executor_instance'] == 'same_as_driver':
-                    executor_display += " (Driverと同じ)"
-                
                 dbu_unit_price = w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0
                 
-                export_data.append({
-                    "ワークロード名": w['workload_name'],
-                    "ワークロードタイプ": w['workload_type'],
-                    "Photon": photon_status,
-                    "Driverインスタンス": w['driver_instance'],
-                    "Executorインスタンス": executor_display,
-                    "月間利用時間": f"{w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)",
-                    "Driver DBU/h": f"{w['driver_dbu']:.2f}",
-                    "Executor DBU/h": f"{w['executor_dbu']:.2f}",
-                    "月間総DBU": f"{w['total_dbu']:.0f}",
-                    "DBU単価": f"${dbu_unit_price:.3f}",
-                    "Databricks料金(月)": f"${w['databricks_monthly']:,.2f}",
-                    "EC2料金(月)": f"${w['ec2_monthly']:,.2f}",
-                    "合計料金(月)": f"${w['total_monthly']:,.2f}"
-                })
+                # SQL Warehouseの場合とクラスターの場合で分岐
+                if w["workload_type"] == "sql-warehouse-serverless":
+                    # SQL Warehouse用のエクスポートデータ
+                    export_data.append({
+                        "ワークロード名": w['workload_name'],
+                        "ワークロードタイプ": w['workload_type'],
+                        "SQL Warehouseサイズ": w.get('sql_warehouse_size', ''),
+                        "クラスタ数": w.get('sql_warehouse_clusters', 1),
+                        "月間利用時間": f"{w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)",
+                        "DBU/h": f"{w['executor_dbu']:.2f}",
+                        "月間総DBU": f"{w['total_dbu']:.0f}",
+                        "DBU単価": f"${dbu_unit_price:.3f}",
+                        "Databricks料金(月)": f"${w['databricks_monthly']:,.2f}",
+                        "EC2料金(月)": f"${w['ec2_monthly']:,.2f}",
+                        "合計料金(月)": f"${w['total_monthly']:,.2f}"
+                    })
+                else:
+                    # クラスター型ワークロード用のエクスポートデータ
+                    photon_status = "有効" if w["photon_enabled"] else "無効"
+                    actual_executor = w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']
+                    executor_display = f"{actual_executor} ×{w['executor_nodes']}"
+                    if w['executor_instance'] == 'same_as_driver':
+                        executor_display += " (Driverと同じ)"
+                    
+                    export_data.append({
+                        "ワークロード名": w['workload_name'],
+                        "ワークロードタイプ": w['workload_type'],
+                        "Photon": photon_status,
+                        "Driverインスタンス": w['driver_instance'],
+                        "Executorインスタンス": executor_display,
+                        "月間利用時間": f"{w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)",
+                        "Driver DBU/h": f"{w['driver_dbu']:.2f}",
+                        "Executor DBU/h": f"{w['executor_dbu']:.2f}",
+                        "月間総DBU": f"{w['total_dbu']:.0f}",
+                        "DBU単価": f"${dbu_unit_price:.3f}",
+                        "Databricks料金(月)": f"${w['databricks_monthly']:,.2f}",
+                        "EC2料金(月)": f"${w['ec2_monthly']:,.2f}",
+                        "合計料金(月)": f"${w['total_monthly']:,.2f}"
+                    })
             
             export_df = pd.DataFrame(export_data)
             csv_buffer = io.StringIO()
@@ -428,17 +623,32 @@ def main():
         
         workload_summary = []
         for w in st.session_state.workloads:
-            photon_mark = "⚡" if w["photon_enabled"] else ""
-            workload_summary.append({
-                "ワークロード名": f"{w['workload_name']} {photon_mark}",
-                "タイプ": w["workload_type"],
-                "Driver": w["driver_instance"],
-                "Executor": f"{w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']} ×{w['executor_nodes']}",
-                "月間時間": f"{w['monthly_hours']}h ({w.get('daily_hours', 8)}h/日×{w.get('monthly_days', 20)}日)",
-                "Databricks": f"${w['databricks_monthly']:,.0f}",
-                "EC2": f"${w['ec2_monthly']:,.0f}",
-                "合計": f"${w['total_monthly']:,.0f}"
-            })
+            # SQL Warehouseの場合とクラスターの場合で分岐
+            if w["workload_type"] == "sql-warehouse-serverless":
+                # SQL Warehouse用のサマリー表示
+                workload_summary.append({
+                    "ワークロード名": w['workload_name'],
+                    "タイプ": w["workload_type"],
+                    "サイズ": w.get('sql_warehouse_size', ''),
+                    "クラスタ数": f"×{w.get('sql_warehouse_clusters', 1)}",
+                    "月間時間": f"{w['monthly_hours']}h ({w.get('daily_hours', 8)}h/日×{w.get('monthly_days', 20)}日)",
+                    "Databricks": f"${w['databricks_monthly']:,.0f}",
+                    "EC2": f"${w['ec2_monthly']:,.0f}",
+                    "合計": f"${w['total_monthly']:,.0f}"
+                })
+            else:
+                # クラスター型ワークロード用のサマリー表示
+                photon_mark = "⚡" if w["photon_enabled"] else ""
+                workload_summary.append({
+                    "ワークロード名": f"{w['workload_name']} {photon_mark}",
+                    "タイプ": w["workload_type"],
+                    "Driver": w["driver_instance"],
+                    "Executor": f"{w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']} ×{w['executor_nodes']}",
+                    "月間時間": f"{w['monthly_hours']}h ({w.get('daily_hours', 8)}h/日×{w.get('monthly_days', 20)}日)",
+                    "Databricks": f"${w['databricks_monthly']:,.0f}",
+                    "EC2": f"${w['ec2_monthly']:,.0f}",
+                    "合計": f"${w['total_monthly']:,.0f}"
+                })
         
         st.dataframe(pd.DataFrame(workload_summary), use_container_width=True, hide_index=True)
         
@@ -450,61 +660,98 @@ def main():
             # 個別ワークロード詳細
             for w in st.session_state.workloads:
                 st.write(f"**{w['workload_name']}:**")
-                st.write(f"- Driver DBU: {w['driver_dbu']:.2f}/h, Executor DBU: {w['executor_dbu']:.2f}/h")
-                st.write(f"- 月間DBU: {w['total_dbu']:,.0f} DBU")
+                if w["workload_type"] == "sql-warehouse-serverless":
+                    # SQL Warehouse用の詳細表示
+                    st.write(f"- SQL Warehouseサイズ: {w.get('sql_warehouse_size', '')}, クラスタ数: {w.get('sql_warehouse_clusters', 1)}")
+                    st.write(f"- DBU消費量: {w['executor_dbu']:.2f}/h per cluster")
+                    st.write(f"- 月間DBU: {w['total_dbu']:,.0f} DBU")
+                else:
+                    # クラスター型ワークロード用の詳細表示
+                    st.write(f"- Driver DBU: {w['driver_dbu']:.2f}/h, Executor DBU: {w['executor_dbu']:.2f}/h")
+                    st.write(f"- 月間DBU: {w['total_dbu']:,.0f} DBU")
                 st.write("")
         
         # 計算式表示
         with st.expander("📐 計算式の詳細"):
             st.markdown("### 💡 料金計算の仕組み")
             st.markdown("""
-            **Databricks料金 = DBU消費量 × DBU単価（ワークロード別）**
+            **クラスター型ワークロード:**
+            - Databricks料金 = DBU消費量 × DBU単価（ワークロード別）
             - Driver DBU消費量 = Driver DBU/h × 1ノード × 月間時間
             - Executor DBU消費量 = Executor DBU/h × ノード数 × 月間時間
-            - Driver料金 = Driver DBU消費量 × DBU単価
-            - Executor料金 = Executor DBU消費量 × DBU単価
+            - EC2料金 = インスタンス時間料金 × 利用時間
             
-            **EC2料金 = インスタンス時間料金 × 利用時間**
-            - Driver EC2 = Driver時間単価 × 1ノード × 月間時間  
-            - Executor EC2 = Executor時間単価 × ノード数 × 月間時間
+            **SQL Warehouse（Serverless）:**
+            - Databricks料金 = サイズ別DBU/h × クラスタ数 × 月間時間 × DBU単価
+            - EC2料金 = $0（Serverlessのため）
             """)
             
             # 個別ワークロードの計算式
             for i, w in enumerate(st.session_state.workloads):
-                photon_note = " (Photon有効)" if w['photon_enabled'] else ""
-                st.markdown(f"### 📋 {w['workload_name']}{photon_note}")
-                
-                # EC2料金情報を取得
-                driver_ec2_rate = ec2_data.get(w['driver_instance'], {}).get("price_per_hour", 0)
-                executor_ec2_rate = ec2_data.get(w['actual_executor_instance'], {}).get("price_per_hour", 0)
-                
-                st.markdown(f"""
-                **🖥️ インスタンス構成:**
-                - Driver: {w['driver_instance']} × 1ノード
-                - Executor: {w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']} × {w['executor_nodes']}ノード{' (Driverと同じ)' if w['executor_instance'] == 'same_as_driver' else ''}
-                - 月間稼働時間: {w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)
-                
-                **💎 Databricks料金計算:**
-                ```
-                Driver:  {w['driver_dbu']:.2f} DBU/h × 1ノード × {w['monthly_hours']}h = {w['driver_dbu'] * w['monthly_hours']:.0f} DBU
-                Executor: {w['executor_dbu']:.2f} DBU/h × {w['executor_nodes']}ノード × {w['monthly_hours']}h = {w['executor_dbu'] * w['executor_nodes'] * w['monthly_hours']:.0f} DBU
-                合計DBU: {w['total_dbu']:.0f} DBU
-                DBU単価: {w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0:.3f}$/DBU
-                Databricks料金: {w['total_dbu']:.0f} DBU × {w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0:.3f}$/DBU = ${w['databricks_monthly']:,.2f}
-                ```
-                
-                **🔧 EC2料金計算:**
-                ```
-                Driver EC2:  ${driver_ec2_rate:.4f}/h × 1ノード × {w['monthly_hours']}h = ${driver_ec2_rate * w['monthly_hours']:,.2f}
-                Executor EC2: ${executor_ec2_rate:.4f}/h × {w['executor_nodes']}ノード × {w['monthly_hours']}h = ${executor_ec2_rate * w['executor_nodes'] * w['monthly_hours']:,.2f}
-                EC2合計: ${w['ec2_monthly']:,.2f}
-                ```
-                
-                **💰 総合計:**
-                ```
-                ${w['databricks_monthly']:,.2f} (Databricks) + ${w['ec2_monthly']:,.2f} (EC2) = ${w['total_monthly']:,.2f}
-                ```
-                """)
+                if w["workload_type"] == "sql-warehouse-serverless":
+                    # SQL Warehouse用の計算式表示
+                    st.markdown(f"### 📋 {w['workload_name']} (SQL Warehouse)")
+                    
+                    st.markdown(f"""
+                    **🏢 SQL Warehouse構成:**
+                    - サイズ: {w.get('sql_warehouse_size', '')}
+                    - クラスタ数: {w.get('sql_warehouse_clusters', 1)}
+                    - 月間稼働時間: {w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)
+                    
+                    **💎 Databricks料金計算:**
+                    ```
+                    SQL Warehouse DBU: {w['executor_dbu']:.2f} DBU/h per cluster
+                    総DBU消費量: {w['executor_dbu']:.2f} DBU/h × {w.get('sql_warehouse_clusters', 1)}クラスタ × {w['monthly_hours']}h = {w['total_dbu']:.0f} DBU
+                    DBU単価: ${w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0:.3f}/DBU
+                    Databricks料金: {w['total_dbu']:.0f} DBU × ${w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0:.3f}/DBU = ${w['databricks_monthly']:,.2f}
+                    ```
+                    
+                    **🔧 EC2料金:**
+                    ```
+                    EC2料金: $0.00 (Serverlessのため)
+                    ```
+                    
+                    **💰 総合計:**
+                    ```
+                    ${w['databricks_monthly']:,.2f} (Databricks) + $0.00 (EC2) = ${w['total_monthly']:,.2f}
+                    ```
+                    """)
+                else:
+                    # クラスター型ワークロード用の計算式表示
+                    photon_note = " (Photon有効)" if w['photon_enabled'] else ""
+                    st.markdown(f"### 📋 {w['workload_name']}{photon_note}")
+                    
+                    # EC2料金情報を取得
+                    driver_ec2_rate = ec2_data.get(w['driver_instance'], {}).get("price_per_hour", 0)
+                    executor_ec2_rate = ec2_data.get(w['actual_executor_instance'], {}).get("price_per_hour", 0)
+                    
+                    st.markdown(f"""
+                    **🖥️ インスタンス構成:**
+                    - Driver: {w['driver_instance']} × 1ノード
+                    - Executor: {w['actual_executor_instance'] if w['executor_instance'] == 'same_as_driver' else w['executor_instance']} × {w['executor_nodes']}ノード{' (Driverと同じ)' if w['executor_instance'] == 'same_as_driver' else ''}
+                    - 月間稼働時間: {w['monthly_hours']}時間 ({w.get('daily_hours', 8)}時間/日 × {w.get('monthly_days', 20)}日)
+                    
+                    **💎 Databricks料金計算:**
+                    ```
+                    Driver:  {w['driver_dbu']:.2f} DBU/h × 1ノード × {w['monthly_hours']}h = {w['driver_dbu'] * w['monthly_hours']:.0f} DBU
+                    Executor: {w['executor_dbu']:.2f} DBU/h × {w['executor_nodes']}ノード × {w['monthly_hours']}h = {w['executor_dbu'] * w['executor_nodes'] * w['monthly_hours']:.0f} DBU
+                    合計DBU: {w['total_dbu']:.0f} DBU
+                    DBU単価: {w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0:.3f}$/DBU
+                    Databricks料金: {w['total_dbu']:.0f} DBU × {w['databricks_monthly'] / w['total_dbu'] if w['total_dbu'] > 0 else 0:.3f}$/DBU = ${w['databricks_monthly']:,.2f}
+                    ```
+                    
+                    **🔧 EC2料金計算:**
+                    ```
+                    Driver EC2:  ${driver_ec2_rate:.4f}/h × 1ノード × {w['monthly_hours']}h = ${driver_ec2_rate * w['monthly_hours']:,.2f}
+                    Executor EC2: ${executor_ec2_rate:.4f}/h × {w['executor_nodes']}ノード × {w['monthly_hours']}h = ${executor_ec2_rate * w['executor_nodes'] * w['monthly_hours']:,.2f}
+                    EC2合計: ${w['ec2_monthly']:,.2f}
+                    ```
+                    
+                    **💰 総合計:**
+                    ```
+                    ${w['databricks_monthly']:,.2f} (Databricks) + ${w['ec2_monthly']:,.2f} (EC2) = ${w['total_monthly']:,.2f}
+                    ```
+                    """)
                 
                 if i < len(st.session_state.workloads) - 1:
                     st.markdown("---")
